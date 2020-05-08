@@ -7,3 +7,4 @@ yarn-error.log
 package-lock.json
 public/bundle.css
 public/bundle.js
+public/*.md
