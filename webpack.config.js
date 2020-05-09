@@ -1,4 +1,5 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
+const TerserPlugin = require('terser-webpack-plugin')
 const path = require('path')
 
 const mode = process.env.NODE_ENV || 'development'
@@ -9,7 +10,7 @@ module.exports = {
     bundle: ['./src/main.js'],
   },
   output: {
-    path:  __dirname + '/public',
+    path: __dirname + '/public',
     filename: '[name].js',
     chunkFilename: '[name].[id].js',
   },
@@ -31,13 +32,23 @@ module.exports = {
         test: /\.css$/,
         // MiniCssExtractPlugin doesn't support.
         // For developing, use style-loader instead.
-        use: [ prod ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader' ],
+        use: [prod ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader'],
       }
     ],
   },
   plugins: [
     new MiniCssExtractPlugin({ filename: '[name].css' }),
   ],
+  optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin({
+      terserOptions: {
+        compress: {
+          pure_funcs: ["console.log"]
+        }
+      }
+    })],
+  },
   mode,
   devtool: prod ? false : 'source-map',
 }
