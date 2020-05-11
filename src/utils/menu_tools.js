@@ -29,6 +29,7 @@ export async function get_menus() {
   let result = []
   
   let tokens = marked.lexer(markdown, {})
+  console.log(tokens)
   for (let t of tokens) {
     if (t.type === 'heading' && t.depth === 2) {
       if (t.tokens.length === 1) {

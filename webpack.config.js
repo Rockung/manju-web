@@ -7,7 +7,7 @@ const prod = mode === 'production'
 
 module.exports = {
   entry: {
-    bundle: ['./src/main.js'],
+    manjusri: ['./src/main.js'],
   },
   output: {
     path: __dirname + '/public',

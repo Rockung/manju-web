@@ -1,4 +1,6 @@
 import marked from 'marked'
+import Prism from 'prismjs'
+
 export async function get_sidebar() {
   const res = await fetch(`sidebar.md`);
   const markdown = await res.text()
@@ -36,5 +38,53 @@ export async function get_sidebar() {
 export async function gen_html(path) {
   const res = await fetch(path);
   const markdown = await res.text()
-  return marked(markdown)
+
+  // const renderer = new marked.Renderer();
+
+  // renderer.heading = (text, level, rawtext) => {
+  //   console.log(text)
+  //   console.log(rawtext)
+  //   return `
+  //     <h${level}>
+  //       ${text}
+  //     </h${level}>`;
+  // };
+
+  // return marked(markdown, {
+  //   // renderer,
+  //   highlight(code, lang) {
+  //     if(!lang) {
+  //       return code
+  //     }
+
+  //     const grammar = Prism.languages[lang]
+  //     if (!grammar) {
+  //       console.warn(`Unable to find grammar for "${lang}".`)
+  //       return code
+  //     }
+
+  //     let highlighted = Prism.highlight(code, grammar, lang)
+  //     return `<pre class='language-${lang}'><code>${highlighted}</code></pre>`
+  //   }
+  // })
+  
+  let tokens = marked.lexer(markdown, {})
+  return marked.parser(tokens, {
+    // renderer,
+    highlight(code, lang) {
+      if (!lang) {
+        return code
+      }
+
+      const grammar = Prism.languages[lang]
+      if (!grammar) {
+        console.warn(`Unable to find grammar for "${lang}".`)
+        return code
+      }
+
+      let highlighted = Prism.highlight(code, grammar, lang)
+      return `<pre class='language-${lang}'><code>${highlighted}</code></pre>`
+    }
+  })
+
 }

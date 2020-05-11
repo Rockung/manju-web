@@ -1,79 +1,59 @@
 * {
-  margin: 0;
-  padding: 0;
+  margin: 0px
 }
 
-.wrapper {
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
+.manjusri-wrapper {
   display: flex;
-  -webkit-flex-flow: row wrap;
-  font-weight: bold;
-  text-align: center
+  flex-direction: column;
+  /* background-color: white; */
 }
 
-.wrapper>* {
-  padding: 10px;
-  flex: 1 100%
+.manjusri-header {
+  top: 0px;
+  height: 40px;
+  position: sticky;
+  /* background-color: antiquewhite; */
 }
 
-.header {
-  background: tomato
+.manjusri-main {
+  /* Take the remaining height */
+  flex-grow: 1;
+
+  /* Layout the left sidebar, main content and right sidebar */
+  display: flex;
+  flex-direction: row;
 }
 
-.footer {
-  background: lightgreen
+.manjusri-aside {
+  width: 25%;
+  padding-top: 50px;
+  /* background-color: blue; */
 }
 
-.main {
-  text-align: left;
-  background: deepskyblue
+.manjusri-aside-active {
+  background-color: #ff3e00;
+  color: white;
 }
 
-.sidebar {
-  background: gold;
-  text-align: left
+.manjusri-article {
+  /* Take the remaining width */
+  flex-grow: 1;
+
+  padding-top: 20px;
+  /* background-color: blueviolet; */
 }
 
-.aside-2 {
-  background: hotpink
+.manjusri-nav {
+  width: 20%;
+  padding-top: 40px;
+  /* background-color: brown; */
 }
 
-@media all and (min-width:600px) {
-  .aside {
-    flex: 1 auto
-  }
-
-  .aside-2 {
-    flex: 1 auto
-  }
+.manjusri-footer {
+  /* background-color: darkgreen; */
 }
 
-@media all and (min-width:800px) {
-  .main {
-    flex: 10 0px
-  }
-
-  .sidebar {
-    order: 1
-  }
-
-  .main {
-    order: 2
-  }
-
-  .aside-2 {
-    order: 3
-  }
-
-  .footer {
-    order: 4
-  }
-}
-
-.navigation {
+.manjusri-menu {
   list-style: none;
   margin: 0;
   background: deepskyblue;
@@ -86,36 +66,41 @@
   justify-content: flex-end
 }
 
-.navigation a {
+.manjusri-menu a {
   text-decoration: none;
   display: block;
   padding: 1em;
   color: white
 }
 
-.navigation a:hover {
+/* .manjusri-menu a:hover {
   background: #00AEE8
+} */
+
+.manjusri-menu-a-active {
+		background-color: #ff3e00;
+		color: white;
 }
 
 @media all and (max-width:800px) {
-  .navigation {
+  .manjusri-menu {
     justify-content: space-around
   }
 }
 
 @media all and (max-width:600px) {
-  .navigation {
+  .manjusri-menu {
     -webkit-flex-flow: column wrap;
     padding: 0
   }
 
-  .navigation a {
+  .manjusri-menu a {
     padding: 10px;
     border-top: 1px solid rgba(255, 255, 255, 0.3);
     border-bottom: 1px solid rgba(0, 0, 0, 0.1)
   }
 
-  .navigation li:last-of-type a {
+  .manjusri-menu li:last-of-type a {
     border-bottom: none
   }
 }

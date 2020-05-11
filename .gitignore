@@ -5,6 +5,5 @@ build/
 yarn-error.log
 .npmrc
 package-lock.json
-public/bundle.css
-public/bundle.js
+public/manjusri.*
 public/*.md
