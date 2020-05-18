@@ -40,7 +40,7 @@ module.exports = {
     new MiniCssExtractPlugin({ filename: '[name].css' }),
   ],
   optimization: {
-    minimize: true,
+    minimize: false,
     minimizer: [new TerserPlugin({
       terserOptions: {
         compress: {

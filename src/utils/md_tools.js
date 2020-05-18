@@ -1,6 +1,6 @@
 import marked from 'marked'
 import Prism from 'prismjs'
-import { slug } from './sluger';
+import { slug as slugger } from './sluger';
 
 export async function get_markdown(file) {
   const res = await fetch(file);
@@ -44,7 +44,7 @@ export async function get_markdown(file) {
   }
 
   if (preH3) {
-    tokenMap[slug(currH2.title + " " + preH3.text)] = tokens.slice(startIndex, tokens.length-1)
+    tokenMap[slug(currH2.title + " " + preH3.text)] = tokens.slice(startIndex, tokens.length - 1)
   }
 
   return {
@@ -71,4 +71,64 @@ export function gen_html(tokens) {
       return `<pre class='language-${lang}'><code>${highlighted}</code></pre>`
     }
   })
+}
+
+export async function gen_html_from_file(path) {
+  const res = await fetch(path);
+  const markdown = await res.text()
+
+  const sections = [];
+  const renderer = new marked.Renderer();
+
+  renderer.heading = (text, level, rawtext) => {
+    let slug;
+
+    const match = /<a href="([^"]+)">(.+)<\/a>/.exec(text);
+    if (match) {
+      slug = slugger(match[1]);
+      text = match[2];
+    } else {
+      slug = slugger(rawtext);
+    }
+
+    if (level === 3 || level === 4) {
+      const title = text
+        .replace(/<\/?code>/g, '')
+        .replace(/\.(\w+)(\((.+)?\))?/, (m, $1, $2, $3) => {
+          if ($3) return `.${$1}(...)`;
+          if ($2) return `.${$1}()`;
+          return `.${$1}`;
+        });
+
+      sections.push({ slug, title, level });
+    }
+
+    return `
+      <h${level} id="${slug}">
+        <span>${text}</span>
+      </h${level}>`;
+  };
+
+  let html = marked(markdown, {
+    renderer,
+    highlight(code, lang) {
+      if (!lang) {
+        return code
+      }
+
+      const grammar = Prism.languages[lang]
+      if (!grammar) {
+        console.warn(`Unable to find grammar for "${lang}".`)
+        return code
+      }
+
+      let highlighted = Prism.highlight(code, grammar, lang)
+      return `<pre class='language-${lang}'><code>${highlighted}</code></pre>`
+    }
+  })
+
+  return {
+    html,
+    sections,
+  }
 }
