@@ -28,7 +28,7 @@
   import ScrollSpy from './scrollspy'
 
   afterUpdate( async () =>  {
-    spy = new ScrollSpy('#manjusri-scroll-spy a')
+    spy = new ScrollSpy('#manjusri-scroll-spy a', { offset: 300 })
     spy.init()
   })
 

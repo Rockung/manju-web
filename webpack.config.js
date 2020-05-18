@@ -1,5 +1,4 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
-const TerserPlugin = require('terser-webpack-plugin')
 const path = require('path')
 
 const mode = process.env.NODE_ENV || 'development'
@@ -33,22 +32,29 @@ module.exports = {
         // MiniCssExtractPlugin doesn't support.
         // For developing, use style-loader instead.
         use: [prod ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader'],
-      }
+      },
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'babel-loader',
+          options: {
+            plugins: [
+              '@babel/plugin-transform-arrow-functions',
+              '@babel/plugin-proposal-class-properties',
+              '@babel/plugin-transform-runtime',
+            ],
+            presets: [
+              '@babel/preset-env',
+            ]
+          },
+        }
+      },
     ],
   },
   plugins: [
     new MiniCssExtractPlugin({ filename: '[name].css' }),
   ],
-  optimization: {
-    minimize: false,
-    minimizer: [new TerserPlugin({
-      terserOptions: {
-        compress: {
-          pure_funcs: ["console.log"]
-        }
-      }
-    })],
-  },
   mode,
   devtool: prod ? false : 'source-map',
 }

@@ -4883,7 +4883,7 @@ class HtmlTag {
 }
 
 const active_docs = new Set();
-let active = 0;
+let internal_active = 0;
 // https://github.com/darkskyapp/string-hash/blob/master/index.js
 function hash(str) {
     let hash = 5381;
@@ -4911,7 +4911,7 @@ function create_rule(node, a, b, duration, delay, ease, fn, uid = 0) {
     }
     const animation = node.style.animation || '';
     node.style.animation = `${animation ? `${animation}, ` : ``}${name} ${duration}ms linear ${delay}ms 1 both`;
-    active += 1;
+    internal_active += 1;
     return name;
 }
 function delete_rule(node, name) {
@@ -4923,14 +4923,14 @@ function delete_rule(node, name) {
     const deleted = previous.length - next.length;
     if (deleted) {
         node.style.animation = next.join(', ');
-        active -= deleted;
-        if (!active)
+        internal_active -= deleted;
+        if (!internal_active)
             clear_rules();
     }
 }
 function clear_rules() {
     raf(() => {
-        if (active)
+        if (internal_active)
             return;
         active_docs.forEach(doc => {
             const stylesheet = doc.__svelte_stylesheet;
@@ -5807,7 +5807,7 @@ function make_dirty(component, i) {
     }
     component.$$.dirty[(i / 31) | 0] |= (1 << (i % 31));
 }
-function init(component, options, instance, create_fragment, not_equal, props, dirty = [-1]) {
+function internal_init(component, options, instance, create_fragment, not_equal, props, dirty = [-1]) {
     const parent_component = current_component;
     set_current_component(component);
     const prop_values = options.props || {};
@@ -6165,7 +6165,7 @@ function instance($$self, $$props, $$invalidate) {
 class Menu_svelte_Menu extends SvelteComponent {
 	constructor(options) {
 		super();
-		init(this, options, instance, create_fragment, safe_not_equal, { menus: 0 });
+		internal_init(this, options, instance, create_fragment, safe_not_equal, { menus: 0 });
 	}
 }
 
@@ -6380,7 +6380,7 @@ function Sidebar_svelte_instance($$self, $$props, $$invalidate) {
 class Sidebar_svelte_Sidebar extends SvelteComponent {
 	constructor(options) {
 		super();
-		init(this, options, Sidebar_svelte_instance, Sidebar_svelte_create_fragment, safe_not_equal, { sidebar: 0 });
+		internal_init(this, options, Sidebar_svelte_instance, Sidebar_svelte_create_fragment, safe_not_equal, { sidebar: 0 });
 	}
 }
 
@@ -6428,7 +6428,7 @@ function Content_svelte_instance($$self, $$props, $$invalidate) {
 class Content_svelte_Content extends SvelteComponent {
 	constructor(options) {
 		super();
-		init(this, options, Content_svelte_instance, Content_svelte_create_fragment, safe_not_equal, { content: 0 });
+		internal_init(this, options, Content_svelte_instance, Content_svelte_create_fragment, safe_not_equal, { content: 0 });
 	}
 }
 
@@ -6553,7 +6553,7 @@ function Nav_svelte_instance($$self, $$props, $$invalidate) {
 class Nav_svelte_Nav extends SvelteComponent {
 	constructor(options) {
 		super();
-		init(this, options, Nav_svelte_instance, Nav_svelte_create_fragment, safe_not_equal, { sections: 0 });
+		internal_init(this, options, Nav_svelte_instance, Nav_svelte_create_fragment, safe_not_equal, { sections: 0 });
 	}
 }
 
@@ -6585,7 +6585,7 @@ function Footer_svelte_create_fragment(ctx) {
 class Footer_svelte_Footer extends SvelteComponent {
 	constructor(options) {
 		super();
-		init(this, options, null, Footer_svelte_create_fragment, safe_not_equal, {});
+		internal_init(this, options, null, Footer_svelte_create_fragment, safe_not_equal, {});
 	}
 }
 
@@ -6595,324 +6595,403 @@ var marked = __webpack_require__(0);
 var marked_default = /*#__PURE__*/__webpack_require__.n(marked);
 
 // CONCATENATED MODULE: ./src/utils/menu_tools.js
+function _createForOfIteratorHelper(o) { if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (o = _unsupportedIterableToArray(o))) { var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var it, normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 
 function gen_menus(markdown) {
-  const renderer = new marked_default.a.Renderer()
+  var renderer = new marked_default.a.Renderer();
 
-  renderer.heading = (text, level, rawtext) => {
+  renderer.heading = function (text, level, rawtext) {
     if (level === 2) {
-      return `
-        <li>${text}</li>`
+      return "\n        <li>".concat(text, "</li>");
     }
 
-    return ''
+    return '';
   };
 
-  const html = marked_default()(
-    markdown.replace(/^\t+/gm, match => match.split('\t').join('  ')),
-    { renderer }
-  );
-
+  var html = marked_default()(markdown.replace(/^\t+/gm, function (match) {
+    return match.split('\t').join('  ');
+  }), {
+    renderer: renderer
+  });
   return {
-    html,
-  }
+    html: html
+  };
+}
+function get_menus() {
+  return _get_menus.apply(this, arguments);
 }
 
-async function get_menus() {
-  const res = await fetch(`menu.md`);
-  const markdown = await res.text()
+function _get_menus() {
+  _get_menus = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+    var res, markdown, result, tokens, _iterator, _step, t;
 
-  let result = []
-  
-  let tokens = marked_default.a.lexer(markdown, {})
-  for (let t of tokens) {
-    if (t.type === 'heading' && t.depth === 2) {
-      if (t.tokens.length === 1) {
-        result.push({
-          text: t.tokens[0].text,
-          href: t.tokens[0].href ? t.tokens[0].href : ''
-        })
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.next = 2;
+            return fetch("menu.md");
+
+          case 2:
+            res = _context.sent;
+            _context.next = 5;
+            return res.text();
+
+          case 5:
+            markdown = _context.sent;
+            result = [];
+            tokens = marked_default.a.lexer(markdown, {});
+            _iterator = _createForOfIteratorHelper(tokens);
+
+            try {
+              for (_iterator.s(); !(_step = _iterator.n()).done;) {
+                t = _step.value;
+
+                if (t.type === 'heading' && t.depth === 2) {
+                  if (t.tokens.length === 1) {
+                    result.push({
+                      text: t.tokens[0].text,
+                      href: t.tokens[0].href ? t.tokens[0].href : ''
+                    });
+                  }
+                }
+              }
+            } catch (err) {
+              _iterator.e(err);
+            } finally {
+              _iterator.f();
+            }
+
+            return _context.abrupt("return", result);
+
+          case 11:
+          case "end":
+            return _context.stop();
+        }
       }
-    }
-  }
-
-  return result
+    }, _callee);
+  }));
+  return _get_menus.apply(this, arguments);
 }
-
 // CONCATENATED MODULE: ./src/utils/sluger.js
 function sluger_slug(value) {
-  return value
-    .toLowerCase()
-    .trim()
-    // remove html tags
-    .replace(/<[!\/a-z].*?>/ig, '')
-    // remove unwanted chars
-    .replace(/[\u2000-\u206F\u2E00-\u2E7F\\'!"#$%&()*+,./:;<=>?@[\]^`{|}~]/g, '')
-    .replace(/\s/g, '-');
+  return value.toLowerCase().trim() // remove html tags
+  .replace(/<[!\/a-z].*?>/ig, '') // remove unwanted chars
+  .replace(/[\u2000-\u206F\u2E00-\u2E7F\\'!"#$%&()*+,./:;<=>?@[\]^`{|}~]/g, '').replace(/\s/g, '-');
+}
+// CONCATENATED MODULE: ./src/utils/md_tools.js
+function md_tools_asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function md_tools_asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { md_tools_asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { md_tools_asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+
+
+
+function get_markdown(_x) {
+  return _get_markdown.apply(this, arguments);
 }
 
-// CONCATENATED MODULE: ./src/utils/md_tools.js
+function _get_markdown() {
+  _get_markdown = md_tools_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(file) {
+    var res, markdown, tokens, sidebar, tokenMap, currH2, preH3, startIndex, i, t;
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.next = 2;
+            return fetch(file);
+
+          case 2:
+            res = _context.sent;
+            _context.next = 5;
+            return res.text();
+
+          case 5:
+            markdown = _context.sent;
+            tokens = marked_default.a.lexer(markdown, {});
+            sidebar = [];
+            tokenMap = {};
+            currH2 = null;
+            preH3 = null;
+            startIndex = 0;
+            i = 0;
+
+          case 13:
+            if (!(i < tokens.length)) {
+              _context.next = 21;
+              break;
+            }
+
+            t = tokens[i];
+
+            if (!(t.type !== 'heading')) {
+              _context.next = 17;
+              break;
+            }
+
+            return _context.abrupt("continue", 18);
+
+          case 17:
+            if (t.depth === 2) {
+              // h2
+              currH2 = {
+                title: t.text,
+                children: []
+              };
+              sidebar.push(currH2);
+            } else if (t.depth === 3) {
+              // h3
+              // end the previous h3 
+              if (preH3) {
+                tokenMap[slug(currH2.title + " " + preH3.text)] = tokens.slice(startIndex, i - 1);
+                preH3 = null;
+              } // start a new h3
 
 
+              if (currH2) {
+                preH3 = {
+                  text: t.text,
+                  href: '/#/sidebar/' + slug(currH2.title + " " + t.text)
+                };
+                currH2.children.push(preH3);
+                startIndex = i;
+              }
+            }
 
+          case 18:
+            i++;
+            _context.next = 13;
+            break;
 
-async function get_markdown(file) {
-  const res = await fetch(file);
-  const markdown = await res.text()
+          case 21:
+            if (preH3) {
+              tokenMap[slug(currH2.title + " " + preH3.text)] = tokens.slice(startIndex, tokens.length - 1);
+            }
 
-  let tokens = marked_default.a.lexer(markdown, {})
+            return _context.abrupt("return", {
+              sidebar: sidebar,
+              tokenMap: tokenMap
+            });
 
-  let sidebar = []
-  let tokenMap = {}
-
-  let currH2 = null
-  let preH3 = null
-  let startIndex = 0
-
-  for (let i = 0; i < tokens.length; i++) {
-    let t = tokens[i]
-    if (t.type !== 'heading') {
-      continue
-    }
-
-    if (t.depth === 2) { // h2
-      currH2 = { title: t.text, children: [], }
-      sidebar.push(currH2)
-    } else if (t.depth === 3) { // h3
-      // end the previous h3 
-      if (preH3) {
-        tokenMap[slug(currH2.title + " " + preH3.text)] = tokens.slice(startIndex, i - 1)
-        preH3 = null
-      }
-
-      // start a new h3
-      if (currH2) {
-        preH3 = {
-          text: t.text,
-          href: '/#/sidebar/' + slug(currH2.title + " " + t.text)
+          case 23:
+          case "end":
+            return _context.stop();
         }
-        currH2.children.push(preH3)
-        startIndex = i
       }
-    }
-  }
-
-  if (preH3) {
-    tokenMap[slug(currH2.title + " " + preH3.text)] = tokens.slice(startIndex, tokens.length - 1)
-  }
-
-  return {
-    sidebar,
-    tokenMap,
-  }
+    }, _callee);
+  }));
+  return _get_markdown.apply(this, arguments);
 }
 
 function gen_html(tokens) {
-  console.log(tokens.length)
+  console.log(tokens.length);
   return marked_default.a.parser(tokens, {
-    highlight(code, lang) {
+    highlight: function highlight(code, lang) {
       if (!lang) {
-        return code
+        return code;
       }
 
-      const grammar = prism_default.a.languages[lang]
+      var grammar = prism_default.a.languages[lang];
+
       if (!grammar) {
-        console.warn(`Unable to find grammar for "${lang}".`)
-        return code
+        console.warn("Unable to find grammar for \"".concat(lang, "\"."));
+        return code;
       }
 
-      let highlighted = prism_default.a.highlight(code, grammar, lang)
-      return `<pre class='language-${lang}'><code>${highlighted}</code></pre>`
+      var highlighted = prism_default.a.highlight(code, grammar, lang);
+      return "<pre class='language-".concat(lang, "'><code>").concat(highlighted, "</code></pre>");
     }
-  })
+  });
+}
+function gen_html_from_file(_x2) {
+  return _gen_html_from_file.apply(this, arguments);
 }
 
-async function gen_html_from_file(path) {
-  const res = await fetch(path);
-  const markdown = await res.text()
+function _gen_html_from_file() {
+  _gen_html_from_file = md_tools_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(path) {
+    var res, markdown, sections, renderer, html;
+    return regeneratorRuntime.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            _context2.next = 2;
+            return fetch(path);
 
-  const sections = [];
-  const renderer = new marked_default.a.Renderer();
+          case 2:
+            res = _context2.sent;
+            _context2.next = 5;
+            return res.text();
 
-  renderer.heading = (text, level, rawtext) => {
-    let slug;
+          case 5:
+            markdown = _context2.sent;
+            sections = [];
+            renderer = new marked_default.a.Renderer();
 
-    const match = /<a href="([^"]+)">(.+)<\/a>/.exec(text);
-    if (match) {
-      slug = sluger_slug(match[1]);
-      text = match[2];
-    } else {
-      slug = sluger_slug(rawtext);
-    }
+            renderer.heading = function (text, level, rawtext) {
+              var slug;
+              var match = /<a href="([^"]+)">(.+)<\/a>/.exec(text);
 
-    if (level === 3 || level === 4) {
-      const title = text
-        .replace(/<\/?code>/g, '')
-        .replace(/\.(\w+)(\((.+)?\))?/, (m, $1, $2, $3) => {
-          if ($3) return `.${$1}(...)`;
-          if ($2) return `.${$1}()`;
-          return `.${$1}`;
-        });
+              if (match) {
+                slug = sluger_slug(match[1]);
+                text = match[2];
+              } else {
+                slug = sluger_slug(rawtext);
+              }
 
-      sections.push({ slug, title, level });
-    }
+              if (level === 3 || level === 4) {
+                var title = text.replace(/<\/?code>/g, '').replace(/\.(\w+)(\((.+)?\))?/, function (m, $1, $2, $3) {
+                  if ($3) return ".".concat($1, "(...)");
+                  if ($2) return ".".concat($1, "()");
+                  return ".".concat($1);
+                });
+                sections.push({
+                  slug: slug,
+                  title: title,
+                  level: level
+                });
+              }
 
-    return `
-      <h${level} id="${slug}">
-        <span>${text}</span>
-      </h${level}>`;
-  };
+              return "\n      <h".concat(level, " id=\"").concat(slug, "\">\n        <span>").concat(text, "</span>\n      </h").concat(level, ">");
+            };
 
-  let html = marked_default()(markdown, {
-    renderer,
-    highlight(code, lang) {
-      if (!lang) {
-        return code
+            html = marked_default()(markdown, {
+              renderer: renderer,
+              highlight: function highlight(code, lang) {
+                if (!lang) {
+                  return code;
+                }
+
+                var grammar = prism_default.a.languages[lang];
+
+                if (!grammar) {
+                  console.warn("Unable to find grammar for \"".concat(lang, "\"."));
+                  return code;
+                }
+
+                var highlighted = prism_default.a.highlight(code, grammar, lang);
+                return "<pre class='language-".concat(lang, "'><code>").concat(highlighted, "</code></pre>");
+              }
+            });
+            return _context2.abrupt("return", {
+              html: html,
+              sections: sections
+            });
+
+          case 11:
+          case "end":
+            return _context2.stop();
+        }
       }
-
-      const grammar = prism_default.a.languages[lang]
-      if (!grammar) {
-        console.warn(`Unable to find grammar for "${lang}".`)
-        return code
-      }
-
-      let highlighted = prism_default.a.highlight(code, grammar, lang)
-      return `<pre class='language-${lang}'><code>${highlighted}</code></pre>`
-    }
-  })
-
-  return {
-    html,
-    sections,
-  }
+    }, _callee2);
+  }));
+  return _gen_html_from_file.apply(this, arguments);
 }
-
-// CONCATENATED MODULE: ./src/scrollspy/index.js
-const defaults = {
-
-  // Active classes
-  navClass: 'active',
-  contentClass: 'active',
-
-  // Nested navigation
-  nested: false,
-  nestedClass: 'active',
-
-  // Offset & reflow
-  offset: 0,
-  reflow: false,
-
-  // Event support
-  events: true
-
-};
-
-
-//
-// Methods
-//
-
+// CONCATENATED MODULE: ./src/scrollspy/utils.js
 /**
  * Merge two or more objects together.
  * @param   {Object}   objects  The objects to merge together
  * @returns {Object}            Merged values of defaults and options
  */
-const extend = function () {
-  let merged = {};
-  Array.prototype.forEach.call(arguments, (function (obj) {
-    for (let key in obj) {
+var extend = function extend() {
+  var merged = {};
+  Array.prototype.forEach.call(arguments, function (obj) {
+    for (var key in obj) {
       if (!obj.hasOwnProperty(key)) return;
       merged[key] = obj[key];
     }
-  }));
+  });
   return merged;
 };
-
 /**
  * Emit a custom event
  * @param  {String} type   The event type
  * @param  {Node}   elem   The element to attach the event to
  * @param  {Object} detail Any details to pass along with the event
  */
-const emitEvent = function (type, elem, detail) {
 
+
+var emitEvent = function emitEvent(type, elem, detail) {
   // Make sure events are enabled
-  if (!detail.settings.events) return;
+  if (!detail.settings.events) return; // Create a new event
 
-  // Create a new event
-  let event = new CustomEvent(type, {
+  var event = new CustomEvent(type, {
     bubbles: true,
     cancelable: true,
     detail: detail
-  });
+  }); // Dispatch the event
 
-  // Dispatch the event
   elem.dispatchEvent(event);
-
 };
-
 /**
  * Get an element's distance from the top of the Document.
  * @param  {Node} elem The element
  * @return {Number}    Distance from the top in pixels
  */
-const getOffsetTop = function (elem) {
-  let location = 0;
+
+
+var getOffsetTop = function getOffsetTop(elem) {
+  var location = 0;
+
   if (elem.offsetParent) {
     while (elem) {
       location += elem.offsetTop;
       elem = elem.offsetParent;
     }
   }
+
   return location >= 0 ? location : 0;
 };
-
 /**
  * Sort content from first to last in the DOM
  * @param  {Array} contents The content areas
  */
-const sortContents = function (contents) {
+
+
+var sortContents = function sortContents(contents) {
   if (contents) {
-    contents.sort((function (item1, item2) {
-      let offset1 = getOffsetTop(item1.content);
-      let offset2 = getOffsetTop(item2.content);
+    contents.sort(function (item1, item2) {
+      var offset1 = getOffsetTop(item1.content);
+      var offset2 = getOffsetTop(item2.content);
       if (offset1 < offset2) return -1;
       return 1;
-    }));
+    });
   }
 };
-
 /**
  * Get the offset to use for calculating position
  * @param  {Object} settings The settings for this instantiation
  * @return {Float}           The number of pixels to offset the calculations
  */
-const getOffset = function (settings) {
 
+
+var getOffset = function getOffset(settings) {
   // if the offset is a function run it
   if (typeof settings.offset === 'function') {
     return parseFloat(settings.offset());
-  }
+  } // Otherwise, return it as-is
 
-  // Otherwise, return it as-is
+
   return parseFloat(settings.offset);
-
 };
-
 /**
  * Get the document element's height
  * @private
  * @returns {Number}
  */
-const getDocumentHeight = function () {
-  return Math.max(
-    document.body.scrollHeight, document.documentElement.scrollHeight,
-    document.body.offsetHeight, document.documentElement.offsetHeight,
-    document.body.clientHeight, document.documentElement.clientHeight
-  );
-};
 
+
+var getDocumentHeight = function getDocumentHeight() {
+  return Math.max(document.body.scrollHeight, document.documentElement.scrollHeight, document.body.offsetHeight, document.documentElement.offsetHeight, document.body.clientHeight, document.documentElement.clientHeight);
+};
 /**
  * Determine if an element is in view
  * @param  {Node}    elem     The element
@@ -6920,319 +6999,332 @@ const getDocumentHeight = function () {
  * @param  {Boolean} bottom   If true, check if element is above bottom of viewport instead
  * @return {Boolean}          Returns true if element is in the viewport
  */
-const isInView = function (elem, settings, bottom) {
-  let bounds = elem.getBoundingClientRect();
-  let offset = getOffset(settings);
+
+
+var isInView = function isInView(elem, settings, bottom) {
+  var bounds = elem.getBoundingClientRect();
+  var offset = getOffset(settings);
+
   if (bottom) {
     return parseInt(bounds.bottom, 10) < (window.innerHeight || document.documentElement.clientHeight);
   }
+
   return parseInt(bounds.top, 10) <= offset;
 };
-
 /**
  * Check if at the bottom of the viewport
  * @return {Boolean} If true, page is at the bottom of the viewport
  */
-const isAtBottom = function () {
+
+
+var isAtBottom = function isAtBottom() {
   if (window.innerHeight + window.pageYOffset >= getDocumentHeight()) return true;
   return false;
 };
-
 /**
  * Check if the last item should be used (even if not at the top of the page)
  * @param  {Object} item     The last item
  * @param  {Object} settings The settings for this instantiation
  * @return {Boolean}         If true, use the last item
  */
-const useLastItem = function (item, settings) {
+
+
+var useLastItem = function useLastItem(item, settings) {
+  if (!item) return false;
   if (isAtBottom() && isInView(item.content, settings, true)) return true;
   return false;
 };
-
 /**
  * Get the active content
  * @param  {Array}  contents The content areas
  * @param  {Object} settings The settings for this instantiation
  * @return {Object}          The content area and matching navigation link
  */
-const getActive = function (contents, settings) {
-  let last = contents[contents.length - 1];
+
+
+var getActive = function getActive(contents, settings) {
+  var last = contents[contents.length - 1];
   if (useLastItem(last, settings)) return last;
-  for (let i = contents.length - 1; i >= 0; i--) {
+
+  for (var i = contents.length - 1; i >= 0; i--) {
     if (isInView(contents[i].content, settings)) return contents[i];
   }
 };
-
 /**
  * Deactivate parent navs in a nested navigation
  * @param  {Node}   nav      The starting navigation element
  * @param  {Object} settings The settings for this instantiation
  */
-const deactivateNested = function (nav, settings) {
 
+
+var deactivateNested = function deactivateNested(nav, settings) {
   // If nesting isn't activated, bail
-  if (!settings.nested || !nav.parentNode) return;
+  if (!settings.nested || !nav.parentNode) return; // Get the parent navigation
 
-  // Get the parent navigation
-  let li = nav.parentNode.closest('li');
-  if (!li) return;
+  var li = nav.parentNode.closest('li');
+  if (!li) return; // Remove the active class
 
-  // Remove the active class
-  li.classList.remove(settings.nestedClass);
+  li.classList.remove(settings.nestedClass); // Apply recursively to any parent navigation elements
 
-  // Apply recursively to any parent navigation elements
   deactivateNested(li, settings);
-
 };
-
 /**
  * Deactivate a nav and content area
  * @param  {Object} items    The nav item and content to deactivate
  * @param  {Object} settings The settings for this instantiation
  */
-const deactivate = function (items, settings) {
 
+
+var deactivate = function deactivate(items, settings) {
   // Make sure there are items to deactivate
-  if (!items) return;
+  if (!items) return; // Get the parent list item
 
-  // Get the parent list item
-  let li = items.nav.closest('li');
-  if (!li) return;
+  var li = items.nav.closest('li');
+  if (!li) return; // Remove the active class from the nav and content
 
-  // Remove the active class from the nav and content
   li.classList.remove(settings.navClass);
-  items.content.classList.remove(settings.contentClass);
+  items.content.classList.remove(settings.contentClass); // Deactivate any parent navs in a nested navigation
 
-  // Deactivate any parent navs in a nested navigation
-  deactivateNested(li, settings);
+  deactivateNested(li, settings); // Emit a custom event
 
-  // Emit a custom event
   emitEvent('gumshoeDeactivate', li, {
     link: items.nav,
     content: items.content,
     settings: settings
   });
-
 };
-
-
 /**
  * Activate parent navs in a nested navigation
  * @param  {Node}   nav      The starting navigation element
  * @param  {Object} settings The settings for this instantiation
  */
-const activateNested = function (nav, settings) {
 
+
+var activateNested = function activateNested(nav, settings) {
   // If nesting isn't activated, bail
-  if (!settings.nested) return;
+  if (!settings.nested) return; // Get the parent navigation
 
-  // Get the parent navigation
-  let li = nav.parentNode.closest('li');
-  if (!li) return;
+  var li = nav.parentNode.closest('li');
+  if (!li) return; // Add the active class
 
-  // Add the active class
-  li.classList.add(settings.nestedClass);
+  li.classList.add(settings.nestedClass); // Apply recursively to any parent navigation elements
 
-  // Apply recursively to any parent navigation elements
   activateNested(li, settings);
-
 };
-
 /**
  * Activate a nav and content area
  * @param  {Object} items    The nav item and content to activate
  * @param  {Object} settings The settings for this instantiation
  */
-const activate = function (items, settings) {
 
+
+var activate = function activate(items, settings) {
   // Make sure there are items to activate
-  if (!items) return;
+  if (!items) return; // Get the parent list item
 
-  // Get the parent list item
-  let li = items.nav.closest('li');
-  if (!li) return;
+  var li = items.nav.closest('li');
+  if (!li) return; // Add the active class to the nav and content
 
-  // Add the active class to the nav and content
   li.classList.add(settings.navClass);
-  items.content.classList.add(settings.contentClass);
+  items.content.classList.add(settings.contentClass); // Activate any parent navs in a nested navigation
 
-  // Activate any parent navs in a nested navigation
-  activateNested(li, settings);
+  activateNested(li, settings); // Emit a custom event
 
-  // Emit a custom event
   emitEvent('gumshoeActivate', li, {
     link: items.nav,
     content: items.content,
     settings: settings
   });
-
 };
 
+
+// CONCATENATED MODULE: ./src/scrollspy/index.js
+function scrollspy_createForOfIteratorHelper(o) { if (typeof Symbol === "undefined" || o[Symbol.iterator] == null) { if (Array.isArray(o) || (o = scrollspy_unsupportedIterableToArray(o))) { var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var it, normalCompletion = true, didErr = false, err; return { s: function s() { it = o[Symbol.iterator](); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function scrollspy_unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return scrollspy_arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return scrollspy_arrayLikeToArray(o, minLen); }
+
+function scrollspy_arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
+var defaults = {
+  // Active classes
+  navClass: 'active',
+  contentClass: 'active',
+  // Nested navigation
+  nested: false,
+  nestedClass: 'active',
+  // Offset & reflow
+  offset: 0,
+  reflow: true,
+  // Event support
+  events: true
+};
 /**
  * Create the Constructor object
  * @param {String} selector The selector to use for navigation items
  * @param {Object} options  User options and settings
  */
-class ScrollSpy {
-  constructor(selector, options) {
-    this.selector = selector
-    this.options = options
-    this.navItems = null
-    this.contents = null
-    this.current = null
-    this.timeout = 0
-    this.settings = null
+
+var scrollspy_ScrollSpy = /*#__PURE__*/function () {
+  function ScrollSpy(selector, options) {
+    var _this = this;
+
+    _classCallCheck(this, ScrollSpy);
+
+    _defineProperty(this, "_detect", function () {
+      // Get the active content
+      var active = getActive(_this.contents, _this.settings); // if there's no active content, deactivate and bail
+
+      if (!active) {
+        if (_this.current) {
+          deactivate(_this.current, _this.settings);
+          _this.current = null;
+        }
+
+        return;
+      } // If the active content is the one currently active, do nothing
+
+
+      if (_this.current && active.content === _this.current.content) return; // Deactivate the current content and activate the new content
+
+      deactivate(_this.current, _this.settings);
+      activate(active, _this.settings); // Update the currently active content
+
+      _this.current = active;
+    });
+
+    _defineProperty(this, "_scrollHandler", function () {
+      // If there's a timer, cancel it
+      if (_this.timeout) {
+        window.cancelAnimationFrame(_this.timeout);
+      } // Setup debounce callback
+
+
+      _this.timeout = window.requestAnimationFrame(_this._detect);
+    });
+
+    _defineProperty(this, "_resizeHandler", function () {
+      // If there's a timer, cancel it
+      if (_this.timeout) {
+        window.cancelAnimationFrame(_this.timeout);
+      } // Setup debounce callback
+
+
+      _this.timeout = window.requestAnimationFrame(function () {
+        sortContents(this.contents);
+
+        this._detect();
+      });
+    });
+
+    this.selector = selector;
+    this.options = options;
+    this.navItems = null;
+    this.contents = null;
+    this.current = null;
+    this.timeout = 0;
+    this.settings = null;
   }
-
-
-  //
-  // Methods
-  //
-
   /**
    * Set variables from DOM elements
    */
-  setup() {
 
-    // Get all nav items
-    this.navItems = document.querySelectorAll(this.selector);
-    // Create contents array
-    this.contents = [];
 
-    // Loop through each item, get it's matching content, and push to the array
-    for (let item of this.navItems) {
-      // Get the content for the nav item
-      let content = document.getElementById(decodeURIComponent(item.hash.substr(1)));
-      if (!content) return;
+  _createClass(ScrollSpy, [{
+    key: "_setup",
+    value: function _setup() {
+      // Get all nav items
+      this.navItems = document.querySelectorAll(this.selector); // Create contents array
 
-      // Push to the contents array
-      this.contents.push({
-        nav: item,
-        content: content
-      });
+      this.contents = []; // Loop through each item, get it's matching content, and push to the array
+
+      var _iterator = scrollspy_createForOfIteratorHelper(this.navItems),
+          _step;
+
+      try {
+        for (_iterator.s(); !(_step = _iterator.n()).done;) {
+          var item = _step.value;
+          // Get the content for the nav item
+          var content = document.getElementById(decodeURIComponent(item.hash.substr(1)));
+          if (!content) return; // Push to the contents array
+
+          this.contents.push({
+            nav: item,
+            content: content
+          });
+        } // Sort contents by the order they appear in the DOM
+
+      } catch (err) {
+        _iterator.e(err);
+      } finally {
+        _iterator.f();
+      }
+
+      sortContents(this.contents);
     }
+  }, {
+    key: "destroy",
 
-    // Sort contents by the order they appear in the DOM
-    sortContents(this.contents);
-    console.log(this.contents)
-  };
-
-  /**
-   * Detect which content is currently active
-   */
-  detect() {
-    // Get the active content
-    let active = getActive(this.contents, this.settings);
-
-    // if there's no active content, deactivate and bail
-    if (!active) {
+    /**
+     * Destroy the current instantiation
+     */
+    value: function destroy() {
+      // Undo DOM changes
       if (this.current) {
         deactivate(this.current, this.settings);
-        this.current = null;
+      } // Remove event listeners
+
+
+      window.removeEventListener('scroll', this._scrollHandler, false);
+
+      if (this.settings.reflow) {
+        window.removeEventListener('resize', this._resizeHandler, false);
+      } // Reset variables
+
+
+      this.contents = null;
+      this.navItems = null;
+      this.current = null;
+      this.timeout = null;
+      this.settings = null;
+    }
+  }, {
+    key: "init",
+
+    /**
+     * Initialize the current instantiation
+     */
+    value: function init() {
+      // Merge user options into defaults
+      this.settings = extend(defaults, this.options || {}); // Setup variables based on the current DOM
+
+      this._setup(); // Find the currently active content
+
+
+      this._detect(); // Setup event listeners
+
+
+      window.addEventListener('scroll', this._scrollHandler, false);
+
+      if (this.settings.reflow) {
+        window.addEventListener('resize', this._resizeHandler, false);
       }
-      return;
     }
+  }]);
 
-    // If the active content is the one currently active, do nothing
-    if (this.current && active.content === this.current.content) return;
-
-    // Deactivate the current content and activate the new content
-    deactivate(this.current, this.settings);
-    activate(active, this.settings);
-
-    // Update the currently active content
-    this.current = active;
-
-    console.log(this.current)
-  };
-
-  /**
-   * Detect the active content on scroll
-   * Debounced for performance
-   */
-  scrollHandler(thiz, event) {
-    return function (event) {
-      // If there's a timer, cancel it
-      if (thiz.timeout) {
-        window.cancelAnimationFrame(thiz.timeout);
-      }
-
-      // Setup debounce callback
-      thiz.timeout = window.requestAnimationFrame(thiz.detect.bind(thiz));
-    }
-  };
+  return ScrollSpy;
+}();
 
 
-
-  /**
-   * Update content sorting on resize
-   * Debounced for performance
-   */
-  resizeHandler(event) {
-
-    // If there's a timer, cancel it
-    if (this.timeout) {
-      window.cancelAnimationFrame(this.timeout);
-    }
-
-    // Setup debounce callback
-    this.timeout = window.requestAnimationFrame((function () {
-      sortContents(this.contents);
-      this.detect();
-    }));
-
-  };
-
-  /**
-   * Destroy the current instantiation
-   */
-  destroy() {
-
-    // Undo DOM changes
-    if (this.current) {
-      deactivate(this.current, this.settings);
-    }
-
-    // Remove event listeners
-    window.removeEventListener('scroll', this.scrollHandler(), false);
-    if (this.settings.reflow) {
-      window.removeEventListener('resize', this.resizeHandler, false);
-    }
-
-    // Reset variables
-    this.contents = null;
-    this.navItems = null;
-    this.current = null;
-    this.timeout = null;
-    this.settings = null;
-
-  };
-
-  /**
-   * Initialize the current instantiation
-   */
-  init() {
-
-    // Merge user options into defaults
-    this.settings = extend(defaults, this.options || {});
-
-    // Setup variables based on the current DOM
-    this.setup();
-
-    // Find the currently active content
-    this.detect();
-
-    // Setup event listeners
-    window.addEventListener('scroll', this.scrollHandler(this), false);
-    if (this.settings.reflow) {
-      window.addEventListener('resize', this.resizeHandler, false);
-    }
-
-  };
-
-};
-
-
+;
 // CONCATENATED MODULE: ./src/AppGen.svelte
 /* src\AppGen.svelte generated by Svelte v3.22.2 */
 
@@ -7368,8 +7460,12 @@ function AppGen_svelte_instance($$self, $$props, $$invalidate) {
 	let spy;
 
 	afterUpdate(async () => {
-		spy = new ScrollSpy("#manjusri-scroll-spy a");
+		spy = new scrollspy_ScrollSpy("#manjusri-scroll-spy a");
 		spy.init();
+	});
+
+	onDestroy(() => {
+		spy.destroy();
 	});
 
 	return [menus, content, sections, sidebar];
@@ -7378,7 +7474,7 @@ function AppGen_svelte_instance($$self, $$props, $$invalidate) {
 class AppGen_svelte_AppGen extends SvelteComponent {
 	constructor(options) {
 		super();
-		init(this, options, AppGen_svelte_instance, AppGen_svelte_create_fragment, safe_not_equal, {});
+		internal_init(this, options, AppGen_svelte_instance, AppGen_svelte_create_fragment, safe_not_equal, {});
 	}
 }
 
@@ -7394,17 +7490,13 @@ class AppGen_svelte_AppGen extends SvelteComponent {
 
 
 
+ // import App from './App'
 
 
-// import App from './App'
-
-
-const app = new AppGen_svelte({
-  target: document.body,
-})
-
+var app = new AppGen_svelte({
+  target: document.body
+});
 /* harmony default export */ var src_main = __webpack_exports__["default"] = (app);
-
 
 /***/ })
 /******/ ]);

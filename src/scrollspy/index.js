@@ -17,8 +17,8 @@ const defaults = {
   nestedClass: 'active',
 
   // Offset & reflow
-  offset: 0,
-  reflow: true,
+  offset: 250,
+  reflow: false,
 
   // Event support
   events: true
@@ -41,16 +41,12 @@ export default class ScrollSpy {
     this.current = null;
     this.timeout = 0;
     this.settings = null;
-
-    this._scrollHandler = null;
-    this._resizeHandler = null;
   }
 
   /**
    * Set variables from DOM elements
    */
   _setup() {
-
     // Get all nav items
     this.navItems = document.querySelectorAll(this.selector);
     // Create contents array
@@ -76,65 +72,60 @@ export default class ScrollSpy {
   /**
    * Detect which content is currently active
    */
-  _detect(thiz) {
-    return function () {
-      // Get the active content
-      let active = getActive(thiz.contents, thiz.settings);
+  _detect = () => {
+    // Get the active content
+    let active = getActive(this.contents, this.settings);
 
-      // if there's no active content, deactivate and bail
-      if (!active) {
-        if (thiz.current) {
-          deactivate(thiz.current, thiz.settings);
-          thiz.current = null;
-        }
-        return;
+    // if there's no active content, deactivate and bail
+    if (!active) {
+      if (this.current) {
+        deactivate(this.current, this.settings);
+        this.current = null;
       }
-
-      // If the active content is the one currently active, do nothing
-      if (thiz.current && active.content === thiz.current.content) return;
-
-      // Deactivate the current content and activate the new content
-      deactivate(thiz.current, thiz.settings);
-      activate(active, thiz.settings);
-
-      // Update the currently active content
-      thiz.current = active;
+      return;
     }
+
+    // If the active content is the one currently active, do nothing
+    if (this.current && active.content === this.current.content) return;
+
+    // Deactivate the current content and activate the new content
+    deactivate(this.current, this.settings);
+    activate(active, this.settings);
+
+    // Update the currently active content
+    this.current = active;
   };
 
   /**
    * Detect the active content on scroll
    * Debounced for performance
    */
-  _scroll_handler(thiz) {
-    return function (event) {
-      // If there's a timer, cancel it
-      if (thiz.timeout) {
-        window.cancelAnimationFrame(thiz.timeout);
-      }
-
-      // Setup debounce callback
-      thiz.timeout = window.requestAnimationFrame(thiz._detect(thiz));
+  _scrollHandler = () => {
+    // If there's a timer, cancel it
+    if (this.timeout) {
+      window.cancelAnimationFrame(this.timeout);
     }
+
+    // Setup debounce callback
+    this.timeout = window.requestAnimationFrame(this._detect);
   };
 
   /**
    * Update content sorting on resize
    * Debounced for performance
    */
-  _resize_handler(thiz) {
-    return function (event) {
-      // If there's a timer, cancel it
-      if (thiz.timeout) {
-        window.cancelAnimationFrame(thiz.timeout);
-      }
-
-      // Setup debounce callback
-      thiz.timeout = window.requestAnimationFrame(function () {
-        sortContents(thiz.contents);
-        (thiz._detect(thiz))();
-      });
+  _resizeHandler = () => {
+    // If there's a timer, cancel it
+    if (this.timeout) {
+      window.cancelAnimationFrame(this.timeout);
     }
+
+    // Setup debounce callback
+    let self = this; // save `this` for callback
+    this.timeout = window.requestAnimationFrame(function () {
+      sortContents(self.contents);
+      self._detect();
+    });
   };
 
   /**
@@ -158,9 +149,6 @@ export default class ScrollSpy {
     this.current = null;
     this.timeout = null;
     this.settings = null;
-
-    this._scrollHandler = null;
-    this._resizeHandler = null;
   };
 
   /**
@@ -175,13 +163,11 @@ export default class ScrollSpy {
     this._setup();
 
     // Find the currently active content
-    this._detect(this)();
+    this._detect();
 
     // Setup event listeners
-    this._scrollHandler = this._scroll_handler(this);
     window.addEventListener('scroll', this._scrollHandler, false);
     if (this.settings.reflow) {
-      this._resizeHandler = this._resize_handler(this)
       window.addEventListener('resize', this._resizeHandler, false);
     }
   };
