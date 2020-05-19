@@ -9,6 +9,7 @@
 
   import { get_menus } from "./utils/menu_tools";
   import { gen_html_from_file } from "./utils/md_tools";
+  import { split_menu_file } from "./utils/menu_tools_gen.js"
 
   let menus = [];
   let sidebar = [];
@@ -21,6 +22,9 @@
     let dart  = await gen_html_from_file('dart.md')
     content = dart.html
     sections = dart.sections
+
+    let splits = split_menu_file('before\n# contents\n the contents\n# Menu\nthe menus\n')
+    console.log(splits)
   });
 
   let spy
