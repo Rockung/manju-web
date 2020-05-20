@@ -7,24 +7,22 @@
   import Nav from "./components/Nav.svelte";
   import Footer from "./components/Footer";
 
-  import { get_file } from "./utils/network.js";
-  import { get_menus } from "./utils/menu_tools";
-  import { gen_html_with_spy } from "./utils/md_tools";
-  import { MENU, CONTENTS, split_index_file } from "./utils/text_tools.js";
+  import {
+    handleIndexPage,
+    handleMenuPage,
+  } from './app';
 
-  let menus = [];
-  let sidebar = [];
-  let contents = "";
-  let anchors = [];
+  let page = {
+    menus: [],
+    sidebar: [],
+    contents: [],
+    anchors: [],
+  }
 
   // load index.md
   onMount(async () => {
-    let markdown = await get_file("index.md");
-    let splits = split_index_file(markdown);
-    menus = get_menus(splits[MENU]);
-    let html_spy = gen_html_with_spy(splits[CONTENTS]);
-    contents = html_spy.html;
-    anchors = html_spy.anchors;
+    let result = await handleIndexPage();
+    page = { ...page, ...result }
   });
 
   // scroll-spy functions
@@ -45,10 +43,8 @@
   async function hashChange() {
     const path = window.location.hash.slice(1);
     if (path.startsWith("/m/")) {
-      let markdown = await get_file(path.substring("/m/".length));
-      let html_spy = gen_html_with_spy(markdown);
-      contents = html_spy.html;
-      anchors = html_spy.anchors;
+      let result = await handleMenuPage(path.substring("/m/".length));
+      page = { ...page, ...result }
     } else if (path.startsWith("/s/")) {
       // let tokens = tokenMap[path.substring("/s/".length)];
       // if (tokens) {
@@ -56,28 +52,29 @@
       // }
     }
   }
+
 </script>
 
 <svelte:window on:hashchange={hashChange} />
 
 <div class="manjusri-wrapper">
   <header class="manjusri-header">
-    <Menu {menus} />
+    <Menu menus="{ page.menus }" />
   </header>
   <main class="manjusri-main">
     <!-- Left sidebar -->
     <aside class="manjusri-aside">
-      <Sidebar {sidebar} />
+      <Sidebar sidebar="{ page.sidebar }" />
     </aside>
 
     <!-- Main content -->
     <article class="manjusri-article">
-      <Content {contents} />
+      <Content contents="{ page.contents }" />
     </article>
 
     <!-- Right sidebar -->
     <nav class="manjusri-nav">
-      <Nav {anchors} />
+      <Nav anchors="{ page.anchors }" />
     </nav>
   </main>
   <footer class="manjusri-footer">

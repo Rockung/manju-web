@@ -1,6 +1,6 @@
 # menu
 
-## [Home](redux.md)
+## [Home](home.md)
 ## [Products](product.md)
 ## [About](about.md)
 ## Contact

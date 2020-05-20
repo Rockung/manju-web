@@ -15,7 +15,7 @@
       {#each bar.children as b}
         <li>
           <a
-            href={b.href}
+            href="/#/m/{b.href}"
             class:manjusri-aside-active={current === b}
             on:click={() => (current = b)}>
             {b.text}

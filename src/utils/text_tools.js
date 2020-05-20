@@ -1,11 +1,30 @@
-// the positions in the regex
+/**
+ * the positions in the regex, which also represent
+ *   the type of markdown.
+ */
 export const MENU = 1
 export const CONTENTS = 2
 
 // use () to capture the matches
 const REG_EX = /(# menu)|(# contents)/i
 
-// split the contents from `index.md`
+/**
+ * Split the contents from `index.md`, which contains
+ *   information of home page. The structure is like 
+ *   the following.
+ * 
+ * # menu
+ * 
+ * ## [Home](home.md)
+ * ## [Products](products.md)
+ * 
+ * # contents
+ * 
+ * Here is markdown for the home page
+ * 
+ * @param {*} src 
+ * @return collections of (type, markdown)
+ */
 export function split_index_file(src) {
   let capture
   let curr = 0
