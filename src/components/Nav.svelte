@@ -1,5 +1,5 @@
 <script>
-  export let sections;  
+  export let anchors;  
 </script>
 
 <style>
@@ -7,9 +7,9 @@
 </style>
 
 <ul id="manjusri-scroll-spy">
-  {#each sections as sec}
+  {#each anchors as anchor}
     <li>
-      <a href="#{sec.slug}">{sec.title}</a>
+      <a href="#{anchor.slug}">{anchor.title}</a>
     </li>
   {/each}
 </ul>

@@ -1,30 +1,6 @@
 import marked from 'marked'
 
-export function gen_menus(markdown) {
-  const renderer = new marked.Renderer()
-
-  renderer.heading = (text, level, rawtext) => {
-    if (level === 2) {
-      return `
-        <li>${text}</li>`
-    }
-
-    return ''
-  };
-
-  const html = marked(
-    markdown.replace(/^\t+/gm, match => match.split('\t').join('  ')),
-    { renderer }
-  );
-
-  return {
-    html,
-  }
-}
-
-export async function get_menus() {
-  const res = await fetch(`menu.md`);
-  const markdown = await res.text()
+export function get_menus(markdown) {
 
   let result = []
   
@@ -41,4 +17,34 @@ export async function get_menus() {
   }
 
   return result
+}
+
+export function gen_menus(markdown) {
+  const renderer = new marked.Renderer()
+
+  // list(body, ordered, start) {
+  //   const type = ordered ? 'ol' : 'ul',
+  //     startatt = (ordered && start !== 1) ? (' start="' + start + '"') : '';
+  //   return '<' + type + startatt + '>\n' + body + '</' + type + '>\n';
+  // }
+
+  // listitem(text) {
+  //   return '<li>' + text + '</li>\n';
+  // }
+
+  renderer.list = (body, ordered, start) => {
+    const type = ordered ? 'ol' : 'ul',
+      startatt = (ordered && start !== 1) ? (' start="' + start + '"') : ''
+
+    return '<' + type + startatt + ' class=\"manjusri-menu\">\n' + body + '</' + type + '>\n';
+  }
+
+  const html = marked(
+    markdown.replace(/^\t+/gm, match => match.split('\t').join('  ')),
+    { renderer }
+  )
+
+  return {
+    html,
+  }
 }

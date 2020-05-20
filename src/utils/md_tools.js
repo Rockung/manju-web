@@ -2,10 +2,72 @@ import marked from 'marked'
 import Prism from 'prismjs'
 import { slug as slugger } from './sluger';
 
-export async function get_markdown(file) {
-  const res = await fetch(file);
-  const markdown = await res.text()
+/**
+ * Generate html with scroll-spy
+ *
+ * @param {*} markdown the text of markdown
+ * @return { html, anchors }
+ *     html: the html attached to the main area
+ *     anchors: the anchors for scroll-spy
+ */
+export function gen_html_with_spy(markdown) {
+  const anchors = [];
+  const renderer = new marked.Renderer();
 
+  renderer.heading = (text, level, rawtext) => {
+    let slug;
+
+    const match = /<a href="([^"]+)">(.+)<\/a>/.exec(text);
+    if (match) {
+      slug = slugger(match[1]);
+      text = match[2];
+    } else {
+      slug = slugger(rawtext);
+    }
+
+    if (level === 3 || level === 4) {
+      const title = text
+        .replace(/<\/?code>/g, '')
+        .replace(/\.(\w+)(\((.+)?\))?/, (m, $1, $2, $3) => {
+          if ($3) return `.${$1}(...)`;
+          if ($2) return `.${$1}()`;
+          return `.${$1}`;
+        });
+
+      anchors.push({ slug, title, level });
+    }
+
+    return `
+      <h${level} id="${slug}">
+        <span>${text}</span>
+      </h${level}>`;
+  };
+
+  let html = marked(markdown, {
+    renderer,
+    highlight(code, lang) {
+      if (!lang) {
+        return code
+      }
+
+      const grammar = Prism.languages[lang]
+      if (!grammar) {
+        console.warn(`Unable to find grammar for "${lang}".`)
+        return code
+      }
+
+      let highlighted = Prism.highlight(code, grammar, lang)
+      return `<pre class='language-${lang}'><code>${highlighted}</code></pre>`
+    }
+  })
+
+  return {
+    html,
+    anchors,
+  }
+}
+
+export function get_sidebar(markdown) {
   let tokens = marked.lexer(markdown, {})
 
   let sidebar = []
@@ -53,8 +115,13 @@ export async function get_markdown(file) {
   }
 }
 
-export function gen_html(tokens) {
-  console.log(tokens.length)
+/**
+ * Generate html from the given tokens
+ * 
+ * @param {*} tokens which comes from `marked.lexer`
+ * @return a html string 
+ */
+export function gen_html_from_tokens(tokens) {
   return marked.parser(tokens, {
     highlight(code, lang) {
       if (!lang) {
@@ -73,62 +140,3 @@ export function gen_html(tokens) {
   })
 }
 
-export async function gen_html_from_file(path) {
-  const res = await fetch(path);
-  const markdown = await res.text()
-
-  const sections = [];
-  const renderer = new marked.Renderer();
-
-  renderer.heading = (text, level, rawtext) => {
-    let slug;
-
-    const match = /<a href="([^"]+)">(.+)<\/a>/.exec(text);
-    if (match) {
-      slug = slugger(match[1]);
-      text = match[2];
-    } else {
-      slug = slugger(rawtext);
-    }
-
-    if (level === 3 || level === 4) {
-      const title = text
-        .replace(/<\/?code>/g, '')
-        .replace(/\.(\w+)(\((.+)?\))?/, (m, $1, $2, $3) => {
-          if ($3) return `.${$1}(...)`;
-          if ($2) return `.${$1}()`;
-          return `.${$1}`;
-        });
-
-      sections.push({ slug, title, level });
-    }
-
-    return `
-      <h${level} id="${slug}">
-        <span>${text}</span>
-      </h${level}>`;
-  };
-
-  let html = marked(markdown, {
-    renderer,
-    highlight(code, lang) {
-      if (!lang) {
-        return code
-      }
-
-      const grammar = Prism.languages[lang]
-      if (!grammar) {
-        console.warn(`Unable to find grammar for "${lang}".`)
-        return code
-      }
-
-      let highlighted = Prism.highlight(code, grammar, lang)
-      return `<pre class='language-${lang}'><code>${highlighted}</code></pre>`
-    }
-  })
-
-  return {
-    html,
-    sections,
-  }
-}

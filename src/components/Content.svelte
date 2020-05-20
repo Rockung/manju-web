@@ -1,5 +1,5 @@
 <script>
-  export let content
+  export let contents
 </script>
 
 <style>
@@ -9,5 +9,5 @@ div {
 </style>
 
 <div>
-  {@html content}
+  {@html contents}
 </div>

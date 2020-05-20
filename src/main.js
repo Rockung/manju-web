@@ -10,8 +10,7 @@ import 'prismjs/components/prism-csharp'
 import 'prismjs/components/prism-ruby'
 import 'prismjs/components/prism-rust'
 
-// import App from './App'
-import App from './AppGen'
+import App from './App'
 
 const app = new App({
   target: document.body,

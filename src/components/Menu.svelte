@@ -12,7 +12,7 @@
   {#each menus as m}
     <li>
       <a
-        href="/#/menu/{m.href}"
+        href="/#/m/{m.href}"
         class:manjusri-menu-a-active={current === m}
         on:click={() => (current = m)}>
         {m.text}
