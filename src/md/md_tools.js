@@ -1,6 +1,6 @@
 import marked from 'marked'
 import Prism from 'prismjs'
-import { slug as slugger } from './sluger';
+import { slug as slugger } from '../utils/sluger';
 
 /**
  * Generate html with scroll-spy

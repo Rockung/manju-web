@@ -1,6 +1,8 @@
 <script>
+  import { HASH_MENU } from "../constants";
+
   export let menus;
-  
+
   let current = null;
 </script>
 
@@ -12,7 +14,7 @@
   {#each menus as m}
     <li>
       <a
-        href="/#/m/{m.href}"
+        href="/#{HASH_MENU}{m.href}"
         class:manjusri-menu-a-active={current === m}
         on:click={() => (current = m)}>
         {m.text}

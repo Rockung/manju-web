@@ -1,11 +1,11 @@
 <script>
-  export let contents
+  export let contents;
 </script>
 
 <style>
-div {
-  margin-left: 20px;
-}
+  div {
+    margin-left: 20px;
+  }
 </style>
 
 <div>

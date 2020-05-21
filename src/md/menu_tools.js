@@ -7,7 +7,7 @@ import marked from 'marked'
  */
 export function get_menus(markdown) {
   let result = []
-  
+
   let tokens = marked.lexer(markdown, {})
   for (let t of tokens) {
     if (t.type === 'heading' && t.depth === 2) {
@@ -29,9 +29,8 @@ export function get_menus(markdown) {
  * @param {*} markdown 
  */
 export function get_sidebar(markdown) {
-  console.log(markdown)
   let result = []
-  
+
   let tokens = marked.lexer(markdown, {})
 
   let curr = null

@@ -1,5 +1,5 @@
 <script>
-  export let anchors;  
+  export let anchors;
 </script>
 
 <style>

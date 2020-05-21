@@ -1,8 +1,8 @@
 # menu
 
-## [Home](home.md)
-## [Products](product.md)
-## [About](about.md)
+## [Home](./examples/home.md)
+## [Products](./examples/product.md)
+## [About](./examples/about.md)
 ## Contact
 
 # contents
