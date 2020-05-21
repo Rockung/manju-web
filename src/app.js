@@ -46,8 +46,6 @@ export async function handleIndexPage(url) {
  *   get and parse a menu file into page elements
  */
 export async function handleMenuPage(url) {
-  console.log(url)
-  
   let sidebar = [];
   let contents = "";
   let anchors = [];

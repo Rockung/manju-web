@@ -23,7 +23,7 @@ You cannot really install an AppImage. It's just a file which can be integrated 
 1. Save AppImage somewhere. Let's say `~/bin/marktext.AppImage`
 2. `chmod +x ~/bin/marktext.AppImage`
 3. Create a launch script:
-   ```sh
+   ```bash
    #!/bin/bash
    DESKTOPINTEGRATION=0 ~/bin/marktext.AppImage
    ```
@@ -48,7 +48,7 @@ You need to install the `flatpak` package for your distribution. Please see the 
 
 After you install flatpak and flathub repository, you can install [Mark Text](https://flathub.org/apps/details/com.github.marktext.marktext) with just one command:
 
-```
+```bash
 sudo flatpak install flathub com.github.marktext.marktext
 ```
 
@@ -60,7 +60,7 @@ To run Mark Text just execute `flatpak run com.github.marktext.marktext` or clic
 
 To update Mark Text run the following command:
 
-```
+```bash
 sudo flatpak update com.github.marktext.marktext
 ```
 
