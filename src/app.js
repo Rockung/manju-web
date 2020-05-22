@@ -1,7 +1,7 @@
 import { get_file } from './utils/network'
 import { gen_html_with_spy } from './md/md_tools'
 import {
-  get_menus,
+  get_menu,
   get_sidebar,
 } from './md/menu_tools'
 import {
@@ -14,7 +14,7 @@ import {
  *   get and parse `index.md` into page elements
  */
 export async function handleIndexPage(url) {
-  let menus = [];
+  let menu = [];
   let sidebar = [];
   let contents = "";
   let anchors = [];
@@ -23,7 +23,7 @@ export async function handleIndexPage(url) {
   let splits = split_index_file(markdown);
 
   if (splits[MENU]) {
-    menus = get_menus(splits[MENU]);
+    menu = get_menu(splits[MENU]);
   }
 
   if (splits[CONTENTS]) {
@@ -34,7 +34,7 @@ export async function handleIndexPage(url) {
   }
 
   return {
-    menus,
+    menu,
     sidebar,
     contents,
     anchors,

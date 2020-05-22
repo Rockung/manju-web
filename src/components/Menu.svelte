@@ -1,7 +1,7 @@
 <script>
   import { HASH_MENU } from "../constants";
 
-  export let menus;
+  export let menu;
 
   let current = null;
 </script>
@@ -11,7 +11,7 @@
 </style>
 
 <ul class="manjusri-menu">
-  {#each menus as m}
+  {#each menu as m}
     <li>
       <a
         href="/#{HASH_MENU}{m.href}"

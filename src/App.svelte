@@ -12,7 +12,7 @@
 
   let page = {
     baseDir: "",
-    menus: [],
+    menu: [],
     sidebar: [],
     contents: "",
     anchors: []
@@ -68,7 +68,7 @@
 
 <div class="manjusri-wrapper">
   <header class="manjusri-header">
-    <Menu menus={page.menus} />
+    <Menu menu={page.menu} />
   </header>
   <main class="manjusri-main">
     <!-- Left sidebar -->

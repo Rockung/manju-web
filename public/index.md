@@ -1,9 +1,9 @@
 # menu
 
-## [Home](./examples/home.md)
-## [Products](./examples/product.md)
-## [About](./examples/about.md)
-## Contact
+- [Home](./examples/home.md)
+- [Products](./examples/product.md)
+- [About](./examples/about.md)
+- Contact
 
 # contents
 
