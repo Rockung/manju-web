@@ -6,10 +6,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel='stylesheet' type='text/css' href='global.css'>
   <link rel='stylesheet' type='text/css' href='manjusri.css'>
-  <title>Fetch markdown</title>
+  <script type="systemjs-importmap" src="./systemjs.json"></script>
+  <script src="https://cdn.jsdelivr.net/npm/systemjs/dist/system.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/systemjs/dist/extras/amd.js"></script>
+  <title>Manjusri Manual</title>
 </head>
 
 <body>
-  <script src='manjusri.js'></script>
+  <script>
+    System.import("manjusri");
+  </script>
 </body>
+
 </html>

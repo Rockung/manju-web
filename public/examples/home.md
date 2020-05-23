@@ -15,6 +15,11 @@
 
 Redux is a predictable state container for JavaScript apps.
 
+## MathJax Test
+```
+When $a \ne 0$, there are two solutions to \(ax^2 + bx + c = 0\) and they are
+$$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
+```
 ## Redux Flow
 
 <img src="images/redux-flow.webp" alt="redux-flow" style="zoom: 67%;" />

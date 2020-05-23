@@ -12,6 +12,7 @@ module.exports = {
     path: __dirname + '/public',
     filename: '[name].js',
     chunkFilename: '[name].[id].js',
+    libraryTarget: 'system',
   },
   resolve: {
     alias: {
@@ -55,6 +56,7 @@ module.exports = {
   plugins: [
     new MiniCssExtractPlugin({ filename: '[name].css' }),
   ],
+  externals: [],
   mode,
   devtool: prod ? false : 'source-map',
 }

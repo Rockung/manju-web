@@ -1,5 +1,6 @@
 <script>
   export let contents;
+  
 </script>
 
 <style>
