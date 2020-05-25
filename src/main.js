@@ -13,9 +13,24 @@ import 'prismjs/components/prism-bash'
 
 import App from './App.svelte'
 
+window.System.onload = function (err, id, deps) {
+  console.log('systemjs:load: ', err, id, deps)
+}
+
+// https://docs.mathjax.org/en/latest/web/configuration.html
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  },
+  svg: {
+    fontCache: 'global'
+  }
+};
+
+window.System.import('MathJax')
+
 const app = new App({
   target: document.body,
 })
 
 export default app
-

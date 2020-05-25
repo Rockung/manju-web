@@ -30,20 +30,6 @@
     page = { ...page, ...result, baseDir: "/" };
   });
 
-  // scroll-spy functions
-  let spy;
-  import { afterUpdate, onDestroy } from "svelte";
-  import ScrollSpy from "./scrollspy";
-
-  afterUpdate(async () => {
-    spy = new ScrollSpy("#manjusri-scroll-spy a", { offset: 300 });
-    spy.init();
-  });
-
-  onDestroy(() => {
-    spy.destroy();
-  });
-
   // hash-routing
   async function hashChange() {
     const hashPath = window.location.hash.slice(1);
