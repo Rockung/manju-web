@@ -12,22 +12,13 @@ import 'prismjs/components/prism-rust'
 import 'prismjs/components/prism-bash'
 
 import App from './App.svelte'
+import registerMathJax from './ext/mathjax'
+import Mermaid from './ext/mermaid'
 
-window.System.onload = function (err, id, deps) {
-  console.log('systemjs:load: ', err, id, deps)
-}
+registerMathJax().then((script) => {
 
-// https://docs.mathjax.org/en/latest/web/configuration.html
-window.MathJax = {
-  tex: {
-    inlineMath: [['$', '$'], ['\\(', '\\)']]
-  },
-  svg: {
-    fontCache: 'global'
-  }
-};
-
-window.System.import('MathJax')
+})
+Mermaid.register()
 
 const app = new App({
   target: document.body,

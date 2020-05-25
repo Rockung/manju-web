@@ -1,6 +1,7 @@
 {
   "imports": {
     "manjusri": "./manjusri.js",
-    "MathJax": "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+    "MathJax": "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js",
+    "Mermaid": "https://cdn.bootcdn.net/ajax/libs/mermaid/8.5.1/mermaid.min.js"
   }
 }

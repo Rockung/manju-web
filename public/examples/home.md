@@ -2,7 +2,7 @@
 
 * Get Started
   - [Installation](install.md)
-  - Creating your site
+  - [Mermaid Test](mermaid.md)
   - Publishing your site
 
 * Guides
