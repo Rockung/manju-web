@@ -1,4 +1,4 @@
-## **Language samples**
+## **Language Samples**
 
 This collection is not exhaustive -- it's just a brief introduction to the language for people who like to learn by example.
 

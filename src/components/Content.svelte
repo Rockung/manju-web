@@ -1,7 +1,9 @@
 <script>
   import { afterUpdate, onDestroy } from "svelte";
+
   import ScrollSpy from "../scrollspy";
-  import Mermaid, { mermaidParse } from "../ext/mermaid";
+  import { triggerMathJax } from "../ext/mathjax";
+  import { triggerMermaid } from "../ext/mermaid";
 
   export let contents;
 
@@ -12,20 +14,14 @@
     spy = new ScrollSpy("#manjusri-scroll-spy a", { offset: 300 });
     spy.init();
 
-    // https://docs.mathjax.org/en/latest/advanced/typeset.html#
-    if (MathJax && MathJax.typeset) {
-      MathJax.typeset();
-    }
 
-    if (Mermaid.mermaidRender) {
-      Mermaid.mermaidRender()
-    }
+    triggerMathJax();
+    triggerMermaid();
   });
 
   onDestroy(() => {
     spy.destroy();
   });
-
 </script>
 
 <style>

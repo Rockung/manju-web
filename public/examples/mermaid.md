@@ -1,7 +1,16 @@
-### Sequence Diagram
+### ER diagram
 
 ```mermaid
-graph TB
+erDiagram
+    CUSTOMER ||--o{ ORDER : places
+    ORDER ||--|{ LINE-ITEM : contains
+    CUSTOMER }|..|{ DELIVERY-ADDRESS : uses
+```
+
+### Flowchart
+
+```mermaid
+flowchart TB
     c1-->a2
     subgraph one
     a1-->a2
@@ -12,22 +21,7 @@ graph TB
     subgraph three
     c1-->c2
     end
-```
-
-### Sequence Diagram 2
-
-```mermaid
-sequenceDiagram
-    loop Daily query
-        Alice->>Bob: Hello Bob, how are you?
-        alt is sick
-            Bob->>Alice: Not so good :(
-        else is well
-            Bob->>Alice: Feeling fresh like a daisy
-        end
-
-        opt Extra response
-            Bob->>Alice: Thanks for asking
-        end
-    end
+    one --> two
+    three --> two
+    two --> c2
 ```

@@ -25,7 +25,6 @@
     let href = window.location.href;
     let pos = href.lastIndexOf("/");
     baseUrl = href.substring(0, pos + 1);
-
     let result = await handleIndexPage(baseUrl + "index.md");
     page = { ...page, ...result, baseDir: "/" };
   });

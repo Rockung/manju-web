@@ -11,6 +11,7 @@ const Mermaid = {
 Mermaid.register = function register() {
   loadScript('https://cdn.bootcdn.net/ajax/libs/mermaid/8.5.1/mermaid.min.js').then((script) => {
     initializeMermaid();
+    triggerMermaid();
   })
 };
 
@@ -143,6 +144,12 @@ function mermaidRender() {
     let parent = ele.parentElement;
     parent.id = 'pre-' + parseInt(Math.random() * (10000 + 1));
     doMermaiRender(ele.parentElement, unescapeHTML(ele.innerHTML));
+  }
+}
+
+export function triggerMermaid() {
+  if (Mermaid.mermaidRender) {
+    Mermaid.mermaidRender()
   }
 }
 
