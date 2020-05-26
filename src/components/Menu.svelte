@@ -10,12 +10,12 @@
 
 </style>
 
-<ul class="manjusri-menu">
+<ul class="manju-web-menu">
   {#each menu as m}
     <li>
       <a
         href="/#{HASH_MENU}{m.href}"
-        class:manjusri-menu-a-active={current === m}
+        class:manju-web-menu-a-active={current === m}
         on:click={() => (current = m)}>
         {m.text}
       </a>

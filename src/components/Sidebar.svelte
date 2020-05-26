@@ -19,7 +19,7 @@
         <li>
           <a
             href="/#{HASH_SIDEBAR}{baseDir}{b.href}"
-            class:manjusri-aside-active={current === b}
+            class:manju-web-aside-active={current === b}
             on:click={() => (current = b)}>
             {b.text}
           </a>

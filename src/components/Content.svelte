@@ -11,7 +11,7 @@
   let spy;
 
   afterUpdate(async () => {
-    spy = new ScrollSpy("#manjusri-scroll-spy a", { offset: 300 });
+    spy = new ScrollSpy("#manju-web-scroll-spy a", { offset: 300 });
     spy.init();
 
 

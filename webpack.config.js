@@ -6,7 +6,7 @@ const prod = mode === 'production'
 
 module.exports = {
   entry: {
-    manjusri: ['./src/main.js'],
+    'manju-web': ['./src/main.js'],
   },
   output: {
     path: __dirname + '/public',

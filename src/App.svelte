@@ -51,27 +51,27 @@
 
 <svelte:window on:hashchange={hashChange} />
 
-<div class="manjusri-wrapper">
-  <header class="manjusri-header">
+<div class="manju-web-wrapper">
+  <header class="manju-web-header">
     <Menu menu={page.menu} />
   </header>
-  <main class="manjusri-main">
+  <main class="manju-web-main">
     <!-- Left sidebar -->
-    <aside class="manjusri-aside">
+    <aside class="manju-web-aside">
       <Sidebar baseDir={page.baseDir} sidebar={page.sidebar} />
     </aside>
 
     <!-- Main content -->
-    <article class="manjusri-article">
+    <article class="manju-web-article">
       <Content contents={page.contents} />
     </article>
 
     <!-- Right sidebar -->
-    <nav class="manjusri-nav">
+    <nav class="manju-web-nav">
       <Nav anchors={page.anchors} />
     </nav>
   </main>
-  <footer class="manjusri-footer">
+  <footer class="manju-web-footer">
     <Footer />
   </footer>
 </div>

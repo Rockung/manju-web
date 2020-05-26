@@ -1,12 +1,13 @@
 # menu
 
-- [介绍](./examples/intro.md)
+- [演示](./examples/intro.md)
 - [帮助](./examples/help.md)
+
 # contents
 
 ## 文殊Web(Manju-web)
 
-文殊Web是一款文档组织工具，把由Markdown编辑的文档组织成一个静态网站。文殊Web支持LaTex、Mermaid等各类DSL语言（领域编程语言）。
+文殊Web是一款文档组织工具，把由Markdown编辑的文档组织成一个静态网站。文殊Web支持LaTex、Mermaid等各类DSL语言（领域语言）。
 
 ### 数学公式
 

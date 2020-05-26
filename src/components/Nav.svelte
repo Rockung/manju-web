@@ -6,7 +6,7 @@
 
 </style>
 
-<ul id="manjusri-scroll-spy">
+<ul id="manju-web-scroll-spy">
   {#each anchors as anchor}
     <li>
       <a href="#{anchor.slug}">{anchor.title}</a>

@@ -2,20 +2,20 @@
   margin: 0px
 }
 
-.manjusri-wrapper {
+.manju-web-wrapper {
   display: flex;
   flex-direction: column;
   /* background-color: white; */
 }
 
-.manjusri-header {
+.manju-web-header {
   top: 0px;
   height: 40px;
   position: sticky;
   /* background-color: antiquewhite; */
 }
 
-.manjusri-main {
+.manju-web-main {
   /* Take the remaining height */
   flex-grow: 1;
 
@@ -24,18 +24,18 @@
   flex-direction: row;
 }
 
-.manjusri-aside {
+.manju-web-aside {
   width: 250px;
   padding-top: 50px;
   /* background-color: blue; */
 }
 
-.manjusri-aside-active {
+.manju-web-aside-active {
   background-color: #ff3e00;
   color: white;
 }
 
-.manjusri-article {
+.manju-web-article {
   /* Take the remaining width */
   flex-grow: 1;
 
@@ -44,11 +44,11 @@
   /* background-color: blueviolet; */
 }
 
-.manjusri-article h2, h3 {
+.manju-web-article h2, h3 {
   margin-top: 10px;
   margin-bottom: 10px;
 }
-.manjusri-nav {
+.manju-web-nav {
   position: fixed;
   top: 40px;
   right: 5px;
@@ -56,15 +56,15 @@
   /* background-color: brown; */
 }
 
-.manjusri-nav ul {
+.manju-web-nav ul {
   list-style: none;
 }
 
-.manjusri-footer {
+.manju-web-footer {
   /* background-color: darkgreen; */
 }
 
-.manjusri-menu {
+.manju-web-menu {
   list-style: none;
   margin: 0;
   background: deepskyblue;
@@ -77,49 +77,49 @@
   justify-content: flex-end
 }
 
-.manjusri-menu a {
+.manju-web-menu a {
   text-decoration: none;
   display: block;
   padding: 1em;
   color: white
 }
 
-/* .manjusri-menu a:hover {
+/* .manju-web-menu a:hover {
   background: #00AEE8
 } */
 
-.manjusri-menu-a-active {
+.manju-web-menu-a-active {
 		background-color: #ff3e00;
 		color: white;
 }
 
 @media all and (max-width:800px) {
-  .manjusri-menu {
+  .manju-web-menu {
     justify-content: space-around
   }
 }
 
 @media all and (max-width:600px) {
-  .manjusri-menu {
+  .manju-web-menu {
     -webkit-flex-flow: column wrap;
     padding: 0
   }
 
-  .manjusri-menu a {
+  .manju-web-menu a {
     padding: 10px;
     border-top: 1px solid rgba(255, 255, 255, 0.3);
     border-bottom: 1px solid rgba(0, 0, 0, 0.1)
   }
 
-  .manjusri-menu li:last-of-type a {
+  .manju-web-menu li:last-of-type a {
     border-bottom: none
   }
 }
 
-#manjusri-scroll-spy li.active {
+#manju-web-scroll-spy li.active {
   background-color: black;
 }
 
-#manjusri-scroll-spy li.active a {
+#manju-web-scroll-spy li.active a {
   color: red;
 }
