@@ -19,19 +19,23 @@ export function get_menu(markdown) {
   for (let token of tokens) {
     if (token.type === 'list') {
       for (let item of token.items) {
-        if (item.tokens.length == 1) {
-          result.push({
-            text: item.tokens[0].tokens[0].text,
-            href: item.tokens[0].tokens[0].href,
-          })
-        } else if (item.tokens.length == 2) {
-          result.push({
-            text: item.tokens[0].text,
-            href: '',
-          })
+        if (item.tokens[0].tokens) { // non-empty list-item
+          let node = item.tokens[0].tokens[0]
+          if (node.type === 'link') {
+            result.push({
+              text: node.text,
+              href: node.href,
+            })
+          } else {
+            result.push({
+              text: node.text,
+              href: '',
+            })
+          }
         }
       }
 
+      // only handle the first list
       break
     }
   }
