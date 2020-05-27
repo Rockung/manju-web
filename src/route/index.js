@@ -1,0 +1,1 @@
+export { handleMount, handleHashChange } from './route'

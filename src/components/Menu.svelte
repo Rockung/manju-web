@@ -1,5 +1,5 @@
 <script>
-  import { HASH_MENU } from "../constants";
+  import { HASH_MENU } from "../store";
 
   export let menu;
 
@@ -14,7 +14,7 @@
   {#each menu as m}
     <li>
       <a
-        href="/#{HASH_MENU}{m.href}"
+        href="#{HASH_MENU}{m.href}"
         class:manju-web-menu-a-active={current === m}
         on:click={() => (current = m)}>
         {m.text}

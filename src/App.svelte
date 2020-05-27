@@ -7,45 +7,22 @@
   import Nav from "./components/Nav.svelte";
   import Footer from "./components/Footer";
 
-  import { HASH_MENU, HASH_SIDEBAR } from "./constants";
-  import { handleIndexPage, handleMenuPage, handleSidebarPage } from "./app.js";
+  import { pageStore } from "./store";
+  import { handleMount, handleHashChange } from './route'
 
-  let page = {
-    baseDir: "",
-    menu: [],
-    sidebar: [],
-    contents: "",
-    anchors: []
-  };
-
-  let baseUrl;
+  let currPage;
+  const unsubscribe = pageStore.subscribe((page) => {
+    currPage = page;
+  })
 
   // load index.md
   onMount(async () => {
-    let href = window.location.href;
-    let pos = href.lastIndexOf("/");
-    baseUrl = href.substring(0, pos + 1);
-    let result = await handleIndexPage(baseUrl + "index.md");
-    page = { ...page, ...result, baseDir: "/" };
+    handleMount();
   });
 
   // hash-routing
   async function hashChange() {
-    const hashPath = window.location.hash.slice(1);
-    let baseDir, basePath, result;
-
-    if (hashPath.startsWith(HASH_MENU)) {
-      basePath = hashPath.substring(HASH_MENU.length);
-      result = await handleMenuPage(baseUrl + basePath);
-    } else if (hashPath.startsWith(HASH_SIDEBAR)) {
-      basePath = hashPath.substring(HASH_SIDEBAR.length);
-      result = await handleSidebarPage(baseUrl + basePath);
-    }
-
-    if (result) {
-      baseDir = basePath.substring(0, basePath.lastIndexOf("/") + 1);
-      page = { ...page, ...result, baseDir };
-    }
+    handleHashChange();
   }
 </script>
 
@@ -53,22 +30,22 @@
 
 <div class="manju-web-wrapper">
   <header class="manju-web-header">
-    <Menu menu={page.menu} />
+    <Menu menu={currPage.menu} />
   </header>
   <main class="manju-web-main">
     <!-- Left sidebar -->
     <aside class="manju-web-aside">
-      <Sidebar baseDir={page.baseDir} sidebar={page.sidebar} />
+      <Sidebar baseDir={currPage.baseDir} sidebar={currPage.sidebar} />
     </aside>
 
     <!-- Main content -->
     <article class="manju-web-article">
-      <Content contents={page.contents} />
+      <Content contents={currPage.contents} />
     </article>
 
     <!-- Right sidebar -->
     <nav class="manju-web-nav">
-      <Nav anchors={page.anchors} />
+      <Nav anchors={currPage.anchors} />
     </nav>
   </main>
   <footer class="manju-web-footer">

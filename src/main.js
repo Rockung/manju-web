@@ -11,14 +11,10 @@ import 'prismjs/components/prism-ruby'
 import 'prismjs/components/prism-rust'
 import 'prismjs/components/prism-bash'
 
-import App from './App.svelte'
-import registerMathJax from './ext/mathjax'
-import Mermaid from './ext/mermaid'
+import App from './App'
+import registerExtensions from './ext'
 
-registerMathJax().then((script) => {
-
-})
-Mermaid.register()
+registerExtensions()
 
 const app = new App({
   target: document.body,

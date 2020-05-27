@@ -8,8 +8,8 @@ const Mermaid = {
   register: null,
 };
 
-Mermaid.register = function register() {
-  loadScript('https://cdn.bootcdn.net/ajax/libs/mermaid/8.5.1/mermaid.min.js').then((script) => {
+Mermaid.register = function register(url) {
+  loadScript(url).then((script) => {
     initializeMermaid();
     triggerMermaid();
   })

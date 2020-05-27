@@ -4,3 +4,10 @@ export async function get_file(file) {
 
   return text;
 }
+
+export async function get_json(file) {
+  const res = await fetch(file);
+  const json = await res.json();
+
+  return json;
+}

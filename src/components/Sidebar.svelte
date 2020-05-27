@@ -1,5 +1,5 @@
 <script>
-  import { HASH_SIDEBAR } from "../constants";
+  import { HASH_SIDEBAR } from "../store";
 
   export let baseDir;
   export let sidebar;
@@ -18,7 +18,7 @@
       {#each bar.children as b}
         <li>
           <a
-            href="/#{HASH_SIDEBAR}{baseDir}{b.href}"
+            href="#{HASH_SIDEBAR}{baseDir}{b.href}"
             class:manju-web-aside-active={current === b}
             on:click={() => (current = b)}>
             {b.text}
