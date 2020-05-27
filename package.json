@@ -11,7 +11,14 @@
     "type": "git",
     "url": "https://gitee.com/rockung/manju-web.git"
   },
-  "keywords": [],
+  "keywords": [
+    "website",
+    "markdown",
+    "marked",
+    "svelte",
+    "mathjax",
+    "mermaid"
+  ],
   "author": "Rockung(rockung@lesiji.top)",
   "license": "MIT",
   "devDependencies": {

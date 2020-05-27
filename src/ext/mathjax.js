@@ -16,7 +16,7 @@ export default function registerMathJax(url) {
 
 export function triggerMathJax() {
     // https://docs.mathjax.org/en/latest/advanced/typeset.html#
-    if (MathJax && MathJax.typeset) {
-      MathJax.typeset();
+    if (window.MathJax && window.MathJax.typeset) {
+      window.MathJax.typeset();
     }
 }

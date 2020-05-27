@@ -142,7 +142,7 @@ function mermaidRender() {
   let codeList = document.querySelectorAll("code.language-mermaid");
   for (let ele of codeList) {
     let parent = ele.parentElement;
-    parent.id = 'pre-' + parseInt(Math.random() * (10000 + 1));
+    parent.id = 'mermaid-' + parseInt(Math.random() * (10000 + 1));
     doMermaiRender(ele.parentElement, unescapeHTML(ele.innerHTML));
   }
 }

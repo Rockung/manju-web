@@ -1,6 +1,7 @@
 import { get_json } from '../utils/network'
 import registerMathJax from './mathjax'
 import Mermaid from './mermaid'
+import Vega from './vega'
 
 async function get_packages() {
   let config = await get_json('systemjs.json')
@@ -21,5 +22,14 @@ export default async function registerExtensions() {
   } else {
     Mermaid.register('https://cdn.bootcdn.net/ajax/libs/mermaid/8.5.1/mermaid.min.js')
   }
+
+  if (config && config['Vega']) {
+    Vega.register(config['Vega'])
+  } else {
+    Vega.register('https://cdn.jsdelivr.net/npm/vega@5')
+  }
 }
 
+export { triggerMathJax } from './mathjax'
+export { triggerMermaid } from './mermaid'
+export { triggerVega } from './vega'

@@ -2,8 +2,7 @@
   import { afterUpdate, onDestroy } from "svelte";
 
   import ScrollSpy from "../scrollspy";
-  import { triggerMathJax } from "../ext/mathjax";
-  import { triggerMermaid } from "../ext/mermaid";
+  import { triggerMathJax, triggerMermaid, triggerVega } from "../ext";
 
   export let contents;
 
@@ -14,9 +13,9 @@
     spy = new ScrollSpy("#manju-web-scroll-spy a", { offset: 300 });
     spy.init();
 
-
     triggerMathJax();
     triggerMermaid();
+    triggerVega();
   });
 
   onDestroy(() => {
