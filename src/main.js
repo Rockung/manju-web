@@ -14,6 +14,7 @@ import 'prismjs/components/prism-bash'
 import App from './App'
 import registerExtensions from './ext'
 
+// FIXME: Extensions may be loaded when they are needed.
 registerExtensions()
 
 const app = new App({

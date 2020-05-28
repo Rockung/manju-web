@@ -1,3 +1,5 @@
+// FIXME: Extensions may be loaded when they are needed.
+
 import { get_json } from '../utils/network'
 import registerMathJax from './mathjax'
 import Mermaid from './mermaid'

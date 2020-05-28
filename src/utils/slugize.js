@@ -1,4 +1,7 @@
-export function slug(value) {
+// https://github.com/markedjs/marked/blob/master/src/Slugger.js
+// Maybe replace it with hexo-util
+
+export function slugize(value) {
   return value
     .toLowerCase()
     .trim()

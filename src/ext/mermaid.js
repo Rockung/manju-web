@@ -1,4 +1,5 @@
 // https://github.com/smartdown/smartdown/blob/master/src/extensions/Mermaid.js
+
 import loadScript from 'load-script2'
 import { unescapeHTML } from '../utils/escape'
 
@@ -14,7 +15,6 @@ Mermaid.register = function register(url) {
     triggerMermaid();
   })
 };
-
 
 function fixupMermaidSVG(svgCode) {
   svgCode = svgCode.replace(/\n/g, '');

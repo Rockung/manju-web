@@ -15,8 +15,8 @@ const REG_EX = /(# menu)|(# contents)/i
  * 
  * # menu
  * 
- * ## [Home](home.md)
- * ## [Products](products.md)
+ * - [Home](home.md)
+ * - [Products](products.md)
  * 
  * # contents
  * 

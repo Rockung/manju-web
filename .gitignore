@@ -4,5 +4,4 @@ coverage/
 build/
 yarn-error.log
 .npmrc
-package-lock.json
 public/manju-web.*

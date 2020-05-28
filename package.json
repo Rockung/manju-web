@@ -17,7 +17,8 @@
     "marked",
     "svelte",
     "mathjax",
-    "mermaid"
+    "mermaid",
+    "vega"
   ],
   "author": "Rockung(rockung@lesiji.top)",
   "license": "MIT",

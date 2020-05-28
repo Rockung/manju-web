@@ -1,3 +1,6 @@
+// https://github.com/hexojs/hexo-util/blob/master/lib/escape_html.js
+// Notes: many useful stuff in hexo-util
+
 const htmlEntityMap = {
   '&amp;': '&',
   '&lt;': '<',

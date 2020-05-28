@@ -1,7 +1,6 @@
-// import marked from 'marked'
 import marked from 'marked'
 import Prism from 'prismjs'
-import { slug as slugger } from '../utils/sluger';
+import { slugize } from '../utils/slugize';
 
 /**
  * Generate html with scroll-spy
@@ -20,10 +19,10 @@ export function gen_html_with_spy(markdown) {
 
     const match = /<a href="([^"]+)">(.+)<\/a>/.exec(text);
     if (match) {
-      slug = slugger(match[1]);
+      slug = slugize(match[1]);
       text = match[2];
     } else {
-      slug = slugger(rawtext);
+      slug = slugize(rawtext);
     }
 
     if (level === 3 || level === 4) {
