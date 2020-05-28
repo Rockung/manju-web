@@ -1,4 +1,5 @@
 // https://github.com/smartdown/smartdown/blob/master/src/extensions/Mermaid.js
+
 import loadScript from 'load-script2'
 import { unescapeHTML } from '../utils/escape'
 
@@ -14,7 +15,6 @@ Mermaid.register = function register(url) {
     triggerMermaid();
   })
 };
-
 
 function fixupMermaidSVG(svgCode) {
   svgCode = svgCode.replace(/\n/g, '');
@@ -142,7 +142,7 @@ function mermaidRender() {
   let codeList = document.querySelectorAll("code.language-mermaid");
   for (let ele of codeList) {
     let parent = ele.parentElement;
-    parent.id = 'pre-' + parseInt(Math.random() * (10000 + 1));
+    parent.id = 'mermaid-' + parseInt(Math.random() * (10000 + 1));
     doMermaiRender(ele.parentElement, unescapeHTML(ele.innerHTML));
   }
 }

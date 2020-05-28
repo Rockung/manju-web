@@ -48,11 +48,11 @@ export function get_menu(markdown) {
  * 
  * The sidebar is a two-level list in markdown, such as
  * 
- * * Get Started
+ * - Get Started
  *   - [Installation](install.md)
  *   - Creating your site
  *   - Publishing your site
- * * Guides
+ * - Guides
  *   - Adding a Blog
  *   - Custom Pages
  * 

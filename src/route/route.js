@@ -9,6 +9,7 @@ export async function handleMount() {
   let baseUrl = href.substring(0, pos + 1);
 
   let result = await handleIndexPage(baseUrl + "index.md");
+  // FIXME: baseDir should be fixed if the docs is not placed in the root
   pageStore.update((page) => ({ ...page, ...result, baseDir: "/", baseUrl }))
 }
 
