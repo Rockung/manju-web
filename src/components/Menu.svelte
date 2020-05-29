@@ -10,15 +10,20 @@
 
 </style>
 
-<ul class="manju-web-menu">
-  {#each menu as m}
-    <li>
-      <a
-        href="#{HASH_MENU}{m.href}"
-        class:manju-web-menu-a-active={current === m}
-        on:click={() => (current = m)}>
-        {m.text}
-      </a>
-    </li>
-  {/each}
-</ul>
+<div class="container">
+  <a href="/" class="logo">文殊Web</a>
+  <nav>
+    <ul>
+      {#each menu as m}
+        <li>
+          <a
+            href="#{HASH_MENU}{m.href}"
+            class:current={current === m}
+            on:click={() => (current = m)}>
+            {m.text}
+          </a>
+        </li>
+      {/each}
+    </ul>
+  </nav>
+</div>

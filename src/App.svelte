@@ -8,12 +8,12 @@
   import Footer from "./components/Footer";
 
   import { pageStore } from "./store";
-  import { handleMount, handleHashChange } from './route'
+  import { handleMount, handleHashChange } from "./route";
 
   let currPage;
-  const unsubscribe = pageStore.subscribe((page) => {
+  const unsubscribe = pageStore.subscribe(page => {
     currPage = page;
-  })
+  });
 
   // load index.md
   onMount(async () => {
@@ -28,27 +28,24 @@
 
 <svelte:window on:hashchange={hashChange} />
 
-<div class="manju-web-wrapper">
-  <header class="manju-web-header">
+<div>
+  <header>
     <Menu menu={currPage.menu} />
   </header>
-  <main class="manju-web-main">
-    <!-- Left sidebar -->
-    <aside class="manju-web-aside">
-      <Sidebar baseDir={currPage.baseDir} sidebar={currPage.sidebar} />
-    </aside>
-
-    <!-- Main content -->
-    <article class="manju-web-article">
-      <Content contents={currPage.contents} />
-    </article>
-
-    <!-- Right sidebar -->
-    <nav class="manju-web-nav">
-      <Nav anchors={currPage.anchors} />
-    </nav>
-  </main>
-  <footer class="manju-web-footer">
-    <Footer />
-  </footer>
+  <section class="content">
+    <div class="container main">
+      <div class="row">
+        <div class="col-sm-2">
+          <Sidebar baseDir={currPage.baseDir} sidebar={currPage.sidebar} />
+        </div>
+        <div class="col-sm-7 typography">
+          <Content contents={currPage.contents} />
+        </div>
+        <div class="col-sm-3 toc-container">
+          <Nav anchors={currPage.anchors} />
+        </div>
+      </div>
+    </div>
+  </section>
+  <footer />
 </div>
