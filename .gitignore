@@ -4,4 +4,3 @@ coverage/
 build/
 yarn-error.log
 .npmrc
-public/manju-web.*

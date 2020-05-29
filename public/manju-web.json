@@ -1,0 +1,7 @@
+{
+  "imports": {
+    "MathJax": "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js",
+    "Mermaid": "https://cdn.bootcdn.net/ajax/libs/mermaid/8.5.1/mermaid.min.js",
+    "Vega": "https://cdn.jsdelivr.net/npm/vega@5"
+  }
+}
