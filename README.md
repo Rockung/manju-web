@@ -12,7 +12,7 @@
 
 **文殊Web**是一款小工具，帮助你用Markdown语言组织的你的Markdown文档。只要按照一定规则书写Markdown文件，把文档夹放在一个**HTTP服务器**下，它就变成了一个静态文档网站。
 
-> 如果玩过前端，你有一打HTTP服务器，到www.npmjs.org搜`http server`。
+> 如果玩过前端，你有一打HTTP服务器，到www.npmjs.com搜`http server`。
 > 
 > 如果想玩玩前端，不妨从这里开始：
 > - linux或Mac用户： https://github.com/nvm-sh/nvm
