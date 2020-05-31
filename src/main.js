@@ -14,6 +14,9 @@ import 'prismjs/components/prism-bash'
 import App from './App'
 import registerExtensions from './ext'
 
+import { ManjuWeb } from './version'
+window.ManjuWeb = ManjuWeb
+
 // FIXME: Extensions may be loaded when they are needed.
 registerExtensions()
 
