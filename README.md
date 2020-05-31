@@ -1,6 +1,6 @@
-# 文殊Web(manju-web)
+# 文殊WEB(manju-web)
 
-一款组织[Markdown](https://guides.github.com/features/mastering-markdown/)文档为静态网站的简单工具。[这里查看演示](https://rockung.gitee.io/). 
+一款组织[Markdown](https://guides.github.com/features/mastering-markdown/)文档为静态网站的简单工具。[这里查看演示](https://mr-abc.gitee.io/mr.abc/). 
 
 ## 由来
 
@@ -10,9 +10,9 @@
 
 开放课程项目Mr.ABC需要一款简单灵活地制作课件的工具，要求对普通的知识工作者容易上手。现在，WEB技术已经变得异常复杂了，即使对程序员来说，也是如此，对知识工作者更加不友好。Markdown，简单易用；除了支持数学公式语言LaTex的[MathJax](https://www.mathjax.org)外，[Mermaid](http://mermaid-js.github.io/mermaid/)、[Vega](https://vega.github.io/vega)的等各类DSL的出现，可以让课件制作变得更加简单。
 
-**文殊Web**是一款小工具，帮助你用Markdown语言组织的你的Markdown文档。只要按照一定规则书写Markdown文件，把文档夹放在一个**HTTP服务器**下，它就变成了一个静态文档网站。
+**文殊WEB**是一款小工具，帮助你用Markdown语言组织的Markdown文档。只要按照一定规则书写Markdown文件，把文档夹放在一个**HTTP服务器**下，它就变成了一个静态文档网站。
 
-> 如果玩过前端，你有一打HTTP服务器，到www.npmjs.com搜`http server`。
+> 如果玩过前端，你有一打HTTP服务器。到www.npmjs.org搜`http server`即可。
 > 
 > 如果想玩玩前端，不妨从这里开始：
 > - linux或Mac用户： https://github.com/nvm-sh/nvm
@@ -21,7 +21,7 @@
 > 编辑器可用
 > - vscode: https://code.visualstudio.com/Download
 > 
-> 受[mardown_nav](https://github.com/chris-peng/markdown_nav)和[itoc](https://github.com/itnik/itoc)启发。
+> 文殊Web受到[mardown_nav](https://github.com/chris-peng/markdown_nav)和[itoc](https://github.com/itnik/itoc)启发。
 
 ## 如何工作的？
 
@@ -74,9 +74,10 @@ Here is markdown for the home page
 
 ## 用法
 
-文档制作者：可去[releases](https://gitee.com/rockung/manju-web/releases)，下载`manju-web-start-xxx.zip`，解压到你的文档根目录即可。
+文档制作者：可去[releases站点](https://gitee.com/mr-abc/manju-web/releases)，下载`manju-web-start-xxx.zip`，解压到你的文档根目录即可。
 
-开发者：可克隆`git clone https://gitee.com/rockung/manju-web.git`
+开发者：可克隆`git clone https://gitee.com/mr-abc/manju-web.git`
+
 ```bash
 npm install
 npm run dev

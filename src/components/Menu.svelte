@@ -1,6 +1,8 @@
 <script>
   import { HASH_MENU } from "../store";
 
+  export let website;
+  export let baseUrl;
   export let menu;
 
   let current = null;
@@ -11,7 +13,7 @@
 </style>
 
 <div class="container">
-  <a href="/" class="logo">文殊Web</a>
+  <a href="{baseUrl}" class="logo">{website}</a>
   <nav>
     <ul>
       {#each menu as m}

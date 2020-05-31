@@ -6,7 +6,7 @@
 
 # contents
 
-## 文殊Web(Manju-web)
+## 文殊WEB(manju-web)
 
 文殊Web是一款文档组织工具，把由Markdown编辑的文档组织成一个静态网站。文殊Web支持LaTex、Mermaid等各类DSL语言（领域语言）。
 
