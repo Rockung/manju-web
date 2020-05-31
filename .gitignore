@@ -2,5 +2,8 @@ node_modules/
 coverage/
 .cache/
 build/
+dist/
 yarn-error.log
 .npmrc
+public/manju-web.css
+public/manju-web.js
