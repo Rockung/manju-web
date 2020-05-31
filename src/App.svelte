@@ -30,7 +30,10 @@
 
 <div>
   <header>
-    <Menu menu={currPage.menu} />
+    <Menu
+      website={currPage.website}
+      baseUrl={currPage.baseUrl}
+      menu={currPage.menu} />
   </header>
   <section class="content">
     <div class="container main">

@@ -1,6 +1,7 @@
 import { get } from 'svelte/store';
 
-import { HASH_MENU, HASH_SIDEBAR, pageStore } from '../store'
+import { get_json } from '../utils/network';
+import { HASH_MENU, HASH_SIDEBAR, pageStore } from '../store';
 import { handleIndexPage, handleMenuPage, handleSidebarPage } from "./page";
 
 export async function handleMount() {
@@ -8,9 +9,12 @@ export async function handleMount() {
   let pos = href.lastIndexOf("/");
   let baseUrl = href.substring(0, pos + 1);
 
+  let config = await get_json('config.json')
+  let website = config['website'] || 'DEFAULT'
+
   let result = await handleIndexPage(baseUrl + "index.md");
   // FIXME: baseDir should be fixed if the docs is not placed in the root
-  pageStore.update((page) => ({ ...page, ...result, baseDir: "/", baseUrl }))
+  pageStore.update((page) => ({ ...page, ...result, baseDir: "/", website, baseUrl }))
 }
 
 export async function handleHashChange() {
@@ -29,6 +33,6 @@ export async function handleHashChange() {
 
   if (result) {
     baseDir = basePath.substring(0, basePath.lastIndexOf("/") + 1);
-    pageStore.update((page) => ({ ...page, ...result, baseDir }))
+    pageStore.update((page) => ({ ...page, ...result, baseDir }));
   }
 }
