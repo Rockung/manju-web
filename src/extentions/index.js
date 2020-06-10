@@ -6,7 +6,7 @@ import Mermaid from './mermaid'
 import Vega from './vega'
 
 async function get_packages() {
-  let config = await get_json('manju-web.json')
+  let config = await get_json('manju-web-js.json')
   return config['imports']
 }
 

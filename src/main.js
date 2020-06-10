@@ -12,7 +12,7 @@ import 'prismjs/components/prism-rust'
 import 'prismjs/components/prism-bash'
 
 import App from './App'
-import registerExtensions from './ext'
+import registerExtensions from './extentions'
 
 import { ManjuWeb } from './version'
 window.ManjuWeb = ManjuWeb

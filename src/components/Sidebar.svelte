@@ -18,12 +18,16 @@
       <ul>
         {#each bar.children as b}
           <li class="item">
-            <a
-              href="#{HASH_SIDEBAR}{baseDir}{b.href}"
-              class:current={current === b}
-              on:click={() => (current = b)}>
-              {b.text}
-            </a>
+            {#if b.href.endsWith('.ppt.md')}
+              <a href="manju-show.html?{baseDir}{b.href}" target="_blank">{b.text}</a>
+            {:else}
+              <a
+                href="#{HASH_SIDEBAR}{baseDir}{b.href}"
+                class:current={current === b}
+                on:click={() => (current = b)}>
+                {b.text}
+              </a>
+            {/if}
           </li>
         {/each}
       </ul>

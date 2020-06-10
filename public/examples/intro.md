@@ -9,6 +9,8 @@
   - [柱状图](vega.md)
 * Dart Language
   - [Language Samples](dart.md)
+* 文殊秀
+  - [Slide Show](manju-show.ppt.md)
 
 # contents
 

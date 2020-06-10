@@ -5,16 +5,21 @@ import { HASH_MENU, HASH_SIDEBAR, pageStore } from '../store';
 import { handleIndexPage, handleMenuPage, handleSidebarPage } from "./page";
 
 export async function handleMount() {
+  let hash = window.location.hash;
   let href = window.location.href;
-  let pos = href.lastIndexOf("/");
-  let baseUrl = href.substring(0, pos + 1);
 
-  let config = await get_json('config.json')
-  let website = config['website'] || 'DEFAULT'
+  let baseUrl = href.substring(0, href.length - hash.length);
 
-  let result = await handleIndexPage(baseUrl + "index.md");
+  let config = await get_json('manju-web-config.json');
+  let website = config['website'] || 'DEFAULT';
+
+  let result = await handleIndexPage(baseUrl + 'index.md');
   // FIXME: baseDir should be fixed if the docs is not placed in the root
-  pageStore.update((page) => ({ ...page, ...result, baseDir: "/", website, baseUrl }))
+  pageStore.update((page) => ({ ...page, ...result, baseDir: '/', website, baseUrl }));
+
+  if (hash.length > 0) {
+    handleHashChange();
+  }
 }
 
 export async function handleHashChange() {
