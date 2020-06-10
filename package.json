@@ -1,7 +1,7 @@
 {
   "name": "manju-web",
   "description": "A tool for building website directly from markdown docs",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --content-base public",
