@@ -1,8 +1,8 @@
 <script>
   import { afterUpdate, onDestroy } from "svelte";
 
-  import ScrollSpy from "../scrollspy";
-  import { triggerMathJax, triggerMermaid, triggerVega } from "../ext";
+  import ScrollSpy from "../utils/scrollspy";
+  import { triggerMathJax, triggerMermaid, triggerVega } from "../extentions";
 
   export let contents;
 

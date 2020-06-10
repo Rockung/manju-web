@@ -1,7 +1,7 @@
 import { get_file } from '../utils/network'
-import { gen_html_with_spy } from '../md/md_tools'
-import { get_menu, get_sidebar } from '../md/menu_tools'
-import { MENU, CONTENTS, split_index_file } from '../md/text_tools'
+import { gen_html_with_spy } from '../tools/md_tools'
+import { get_menu, get_sidebar } from '../tools/menu_tools'
+import { MENU, CONTENTS, split_index_file } from '../tools/text_tools'
 
 /**
  * Handle the index page

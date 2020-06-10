@@ -7,3 +7,4 @@ yarn-error.log
 .npmrc
 public/manju-web.css
 public/manju-web.js
+public/manju-show.*
