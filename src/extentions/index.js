@@ -12,26 +12,27 @@ async function get_packages() {
   return config['imports'];
 }
 
+function get_url(config, key, defaultUrl) {
+  if (config && config[key]) {
+    return config[key];
+  } else {
+    return defaultUrl;
+  }
+}
+
 export default async function registerExtensions() {
   let config = await get_packages();
 
-  if (config && config['MathJax']) {
-    registerMathJax(config['MathJax']).then((script) => {});
-  }  else {
-    registerMathJax('https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js').then((script) => {});
-  }
+  // Mathjax
+  registerMathJax(get_url(config, 'mathjax', 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'))
+    .then((script) => { });
 
-  if (config && config['Mermaid']) {
-    Mermaid.register(config['Mermaid']);
-  } else {
-    Mermaid.register('https://cdn.bootcdn.net/ajax/libs/mermaid/8.5.1/mermaid.min.js');
-  }
+  // Mermaid
+  Mermaid.register(get_url(config, 'mermaid', 'https://cdn.bootcdn.net/ajax/libs/mermaid/8.5.1/mermaid.min.js'));
 
-  if (config && config['Vega']) {
-    Vega.register(config['Vega']);
-  } else {
-    Vega.register('https://cdn.jsdelivr.net/npm/vega@5');
-  }
+  // Vega
+  Vega.register(get_url(config, 'vega', 'https://cdn.jsdelivr.net/npm/vega@5'));
+
 }
 
 export { triggerMathJax } from './mathjax';

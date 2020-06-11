@@ -1,5 +1,6 @@
 import marked from 'marked';
 import Prism from 'prismjs';
+
 import { slugize } from '../utils/slugize';
 
 /**
