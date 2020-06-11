@@ -1,11 +1,18 @@
 <script>
-  import { HASH_MENU } from "../store";
+  import { afterUpdate } from "svelte";
+
+  import Menu from "../utils/menu";
 
   export let website;
   export let baseUrl;
   export let menu;
 
-  let current = null;
+  let nav;
+
+  afterUpdate(async () => {
+    nav = new Menu("#manju-web-menu a", "current");
+    nav.init();
+  });
 </script>
 
 <style>
@@ -13,19 +20,8 @@
 </style>
 
 <div class="container">
-  <a href="{baseUrl}" class="logo">{website}</a>
-  <nav>
-    <ul>
-      {#each menu as m}
-        <li>
-          <a
-            href="#{HASH_MENU}{m.href}"
-            class:current={current === m}
-            on:click={() => (current = m)}>
-            {m.text}
-          </a>
-        </li>
-      {/each}
-    </ul>
+  <a href={baseUrl} class="logo">{website}</a>
+  <nav id="manju-web-menu">
+    {@html menu}
   </nav>
 </div>

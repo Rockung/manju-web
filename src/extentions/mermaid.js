@@ -1,7 +1,9 @@
+/* eslint-disable no-undef */
+
 // https://github.com/smartdown/smartdown/blob/master/src/extensions/Mermaid.js
 
-import loadScript from 'load-script2'
-import { unescapeHTML } from '../utils/escape'
+import loadScript from 'load-script2';
+import { unescapeHTML } from '../utils/escape';
 
 const Mermaid = {
   mermaid: null,
@@ -10,10 +12,11 @@ const Mermaid = {
 };
 
 Mermaid.register = function register(url) {
+  // eslint-disable-next-line no-unused-vars
   loadScript(url).then((script) => {
     initializeMermaid();
     triggerMermaid();
-  })
+  });
 };
 
 function fixupMermaidSVG(svgCode) {
@@ -139,7 +142,7 @@ function initializeMermaid() {
 }
 
 function mermaidRender() {
-  let codeList = document.querySelectorAll("code.language-mermaid");
+  let codeList = document.querySelectorAll('code.language-mermaid');
   for (let ele of codeList) {
     let parent = ele.parentElement;
     parent.id = 'mermaid-' + parseInt(Math.random() * (10000 + 1));
@@ -149,7 +152,7 @@ function mermaidRender() {
 
 export function triggerMermaid() {
   if (Mermaid.mermaidRender) {
-    Mermaid.mermaidRender()
+    Mermaid.mermaidRender();
   }
 }
 

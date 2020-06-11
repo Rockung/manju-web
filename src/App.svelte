@@ -39,7 +39,7 @@
     <div class="container main">
       <div class="row">
         <div class="col-sm-2">
-          <Sidebar baseDir={currPage.baseDir} sidebar={currPage.sidebar} />
+          <Sidebar sidebar={currPage.sidebar} />
         </div>
         <div class="col-sm-7 typography">
           <Content contents={currPage.contents} />

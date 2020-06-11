@@ -1,1 +1,1 @@
-export { handleMount, handleHashChange } from './route'
+export { handleMount, handleHashChange } from './route';

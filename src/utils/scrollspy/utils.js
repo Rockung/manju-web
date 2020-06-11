@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+
 /**
  * Merge two or more objects together.
  * @param   {Object}   objects  The objects to merge together
@@ -7,6 +9,7 @@ const extend = function () {
   let merged = {};
   Array.prototype.forEach.call(arguments, (function (obj) {
     for (let key in obj) {
+      // eslint-disable-next-line no-prototype-builtins
       if (!obj.hasOwnProperty(key)) return;
       merged[key] = obj[key];
     }
@@ -255,4 +258,4 @@ const activate = function (items, settings) {
 
 };
 
-export { extend, activate, deactivate, getActive, sortContents }
+export { extend, activate, deactivate, getActive, sortContents };
