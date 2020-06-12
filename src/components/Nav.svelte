@@ -1,5 +1,21 @@
 <script>
+  import { afterUpdate, onDestroy } from "svelte";
+
+  import ScrollSpy from "../utils/scrollspy";
+
   export let anchors;
+
+  // scroll-spy functions
+  let spy;
+
+  afterUpdate(async () => {
+    spy = new ScrollSpy("#manju-web-scroll-spy a", { offset: 300 });
+    spy.init();
+  });
+
+  onDestroy(() => {
+    spy.destroy();
+  });
 </script>
 
 <style>

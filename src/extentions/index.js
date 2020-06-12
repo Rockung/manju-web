@@ -6,6 +6,7 @@ import { get_json } from '../utils/network';
 import registerMathJax from './mathjax';
 import Mermaid from './mermaid';
 import Vega from './vega';
+import {} from './prism';
 
 async function get_packages() {
   let config = await get_json('manju-web-js.json');
