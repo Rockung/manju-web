@@ -1,6 +1,7 @@
 import marked from 'marked';
 
-import { HASH_MENU, HASH_SIDEBAR } from '../store';
+import { link_sidebar } from './utils';
+import { HASH_MENU } from '../store';
 
 /**
  * Generate menu from the text of markdown
@@ -12,7 +13,8 @@ import { HASH_MENU, HASH_SIDEBAR } from '../store';
  * - [About](./examples/about.md)
  * - Contact
  *
- * @param {*} markdown
+ * @param {string} markdown the text
+ * @return {string} the html for the markdown
  */
 export function gen_menu(markdown) {
   const renderer = new marked.Renderer();
@@ -45,7 +47,9 @@ export function gen_menu(markdown) {
  *   - Adding a Blog
  *   - Custom Pages
  *
- * @param {*} markdown
+ * @param {string} markdown the text
+ * @param {string} baseDir the base directory for links
+ * @return {string} the html for the markdown
  */
 export function gen_sidebar(markdown, baseDir) {
   const renderer = new marked.Renderer();
@@ -54,23 +58,7 @@ export function gen_sidebar(markdown, baseDir) {
     return '<li class="item">' + text + '</li>\n';
   };
 
-  renderer.link = (href, title, text) => {
-    if (href === null) {
-      return text;
-    }
-
-    let out;
-    if (href.endsWith('.ppt.md')) { // handle ppt for manju-show
-      out = '<a href="manju-show.html?' + baseDir + href + '" target="_blank"';
-    } else {
-      out = '<a href="#' + HASH_SIDEBAR + baseDir + href + '"';
-    }
-    if (title) {
-      out += ' title="' + title + '"';
-    }
-    out += '>' + text + '</a>';
-    return out;
-  };
+  renderer.link = link_sidebar(baseDir);
 
   return marked(markdown, { renderer });
 }

@@ -7,7 +7,7 @@ import { MENU, CONTENTS, split_index_file } from '../tools/text_tools';
  * Handle the index page
  *   get and parse `index.md` into page elements
  */
-export async function handleIndexPage(url) {
+export async function handleIndexPage(url, baseDir) {
   let menu = '';
   let sidebar = '';
   let contents = '';
@@ -21,7 +21,7 @@ export async function handleIndexPage(url) {
   }
 
   if (splits[CONTENTS]) {
-    let html_spy = gen_html_with_spy(splits[CONTENTS]);
+    let html_spy = gen_html_with_spy(splits[CONTENTS], baseDir);
 
     contents = html_spy.html;
     anchors = html_spy.anchors;
@@ -69,9 +69,9 @@ export async function handleMenuPage(url, baseDir) {
  * Handle a sidebar page
  *   get and parse a sidebar file into page elements
  */
-export async function handleSidebarPage(url) {
+export async function handleSidebarPage(url, baseDir) {
   let markdown = await get_file(url);
-  let { html: contents, anchors } = gen_html_with_spy(markdown);
+  let { html: contents, anchors } = gen_html_with_spy(markdown, baseDir);
 
   return {
     contents,

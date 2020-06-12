@@ -15,8 +15,8 @@ export async function handleMount() {
   let config = await get_json('manju-web-config.json');
   let website = config['website'] || 'DEFAULT';
 
-  let result = await handleIndexPage(baseUrl + 'index.md');
   // FIXME: baseDir should be fixed if the docs is not placed in the root
+  let result = await handleIndexPage(baseUrl + 'index.md', '/');
   pageStore.update((page) => ({ ...page, ...result, baseDir: '/', website, baseUrl }));
 
   if (hash.length > 0) {
@@ -27,6 +27,7 @@ export async function handleMount() {
 export async function handleHashChange() {
   const currPage = get(pageStore);
   const hashPath = window.location.hash.slice(1);
+
   let baseDir, basePath, result;
 
   if (hashPath.startsWith(HASH_MENU)) {
@@ -36,7 +37,7 @@ export async function handleHashChange() {
   } else if (hashPath.startsWith(HASH_SIDEBAR)) {
     basePath = hashPath.substring(HASH_SIDEBAR.length);
     baseDir = basePath.substring(0, basePath.lastIndexOf('/') + 1);
-    result = await handleSidebarPage(currPage.baseUrl + basePath);
+    result = await handleSidebarPage(currPage.baseUrl + basePath, baseDir);
   }
 
   if (result) {

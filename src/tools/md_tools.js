@@ -1,19 +1,23 @@
 import marked from 'marked';
 import Prism from 'prismjs';
 
+import { link_sidebar } from './utils';
 import { slugize } from '../utils/slugize';
 
 /**
  * Generate html with scroll-spy
  *
- * @param {*} markdown the text of markdown
+ * @param {string} markdown the text of markdown
+ * @param {string} baseDir the base directory for links
  * @return { html, anchors }
  *     html: the html attached to the main area
  *     anchors: the anchors for scroll-spy
  */
-export function gen_html_with_spy(markdown) {
+export function gen_html_with_spy(markdown, baseDir) {
   const anchors = [];
   const renderer = new marked.Renderer();
+
+  renderer.link = link_sidebar(baseDir);
 
   renderer.heading = (text, level, rawtext) => {
     let slug;
