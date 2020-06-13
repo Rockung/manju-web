@@ -1,6 +1,8 @@
 # 文殊WEB(manju-web)
 
-一款组织[Markdown](https://guides.github.com/features/mastering-markdown/)文档为静态网站的简单工具。[这里查看演示](https://mr-abc.gitee.io/mr.abc/). 
+一款组织[Markdown](https://guides.github.com/features/mastering-markdown/)文档为静态网站的简单工具。文殊WEB支持LaTex、Mermaid、Vega等各类DSL语言（领域语言），并通过[文殊秀](https://gitee.com/mr-abc/manju-show)来展示[Markdown PPT文件](https://github.com/ksky521/nodeppt)。
+
+[点这里查看演示](https://mr-abc.gitee.io/mr.abc/)。
 
 ## 由来
 
@@ -72,9 +74,13 @@ Here is markdown for the home page
 - \# menu部分：形成导航条
 - \# contents部分：形成网站的内容
 
+### 展示PPT
+
+对文件名以`.ppt.md`结尾的文件，文殊WEB把它当做PPT进行展示。
+
 ## 用法
 
-文档制作者：可去[releases站点](https://gitee.com/mr-abc/manju-web/releases)，下载`manju-web-start-xxx.zip`，解压到你的文档根目录即可。
+文档制作者：可去[发行站点](https://gitee.com/mr-abc/manju-web/releases)，下载`manju-web-start-xxx.zip`，解压到你的文档根目录即可。
 
 开发者：可克隆`git clone https://gitee.com/mr-abc/manju-web.git`
 

@@ -16,11 +16,12 @@ readdirp(path.resolve(__dirname, '../public'))
   .on('warn', error => console.error('non-fatal error', error))
   .on('error', error => console.error('fatal error', error))
   .on('end', () => {
-    console.log('listing files: done')
-    createZipFile(files)
+    console.log('listing files: done');
+    createZipFile(files);
   });
 
 
+// eslint-disable-next-line no-shadow
 function createZipFile(files) {
   let outPath = path.resolve(__dirname, '../dist');
   if (!fs.existsSync(outPath)) {

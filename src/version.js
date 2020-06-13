@@ -1,4 +1,4 @@
-import pkg from '../package.json'
+import pkg from '../package.json';
 
 const ManjuWeb = {
   name: pkg.name,
@@ -8,6 +8,6 @@ const ManjuWeb = {
   license: pkg.license,
   repositoryType: pkg.repository.type,
   repositoryUrl: pkg.repository.url,
-}
+};
 
-export { ManjuWeb }
+export { ManjuWeb };

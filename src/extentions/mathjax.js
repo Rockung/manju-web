@@ -1,7 +1,15 @@
-import loadScript from 'load-script2'
+/* eslint-disable no-undef */
 
-// https://docs.mathjax.org/en/latest/web/configuration.html
-export default function registerMathJax(url) {  
+import loadScript from 'load-script2';
+
+const MathJax = {
+  mathjax: null,
+  render: null,
+  register: null,
+};
+
+MathJax.register = function register(url) {
+  // https://docs.mathjax.org/en/latest/web/configuration.html
   window.MathJax = {
     tex: {
       inlineMath: [['$', '$'], ['\\(', '\\)']]
@@ -10,13 +18,19 @@ export default function registerMathJax(url) {
       fontCache: 'global'
     }
   };
-  
-  return loadScript(url)
-}
+
+  // eslint-disable-next-line no-unused-vars
+  loadScript(url).then((script) => {
+    MathJax.mathjax = window.MathJax;
+    triggerMathJax();
+  });
+};
 
 export function triggerMathJax() {
-    // https://docs.mathjax.org/en/latest/advanced/typeset.html#
-    if (window.MathJax && window.MathJax.typeset) {
-      window.MathJax.typeset();
-    }
+  // https://docs.mathjax.org/en/latest/advanced/typeset.html#
+  if (MathJax.mathjax) {
+    MathJax.mathjax.typeset();
+  }
 }
+
+export default MathJax;

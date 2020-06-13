@@ -1,10 +1,12 @@
+/* eslint-disable no-undef */
+
 import {
   activate,
   deactivate,
   getActive,
   sortContents,
   extend,
-} from './utils'
+} from './utils';
 
 const defaults = {
 
@@ -67,7 +69,7 @@ export default class ScrollSpy {
 
     // Sort contents by the order they appear in the DOM
     sortContents(this.contents);
-  };
+  }
 
   /**
    * Detect which content is currently active
@@ -149,7 +151,7 @@ export default class ScrollSpy {
     this.current = null;
     this.timeout = null;
     this.settings = null;
-  };
+  }
 
   /**
    * Initialize the current instantiation
@@ -170,7 +172,7 @@ export default class ScrollSpy {
     if (this.settings.reflow) {
       window.addEventListener('resize', this._resizeHandler, false);
     }
-  };
+  }
 
-};
+}
 

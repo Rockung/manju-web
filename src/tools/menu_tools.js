@@ -1,53 +1,44 @@
-import marked from 'marked'
+import marked from 'marked';
+
+import { link_sidebar } from './utils';
+import { HASH_MENU } from '../store';
 
 /**
- * Get menu from the text of markdown
- * 
+ * Generate menu from the text of markdown
+ *
  * The menu is a list in markdown, such as
- * 
+ *
  * - [Home](./examples/home.md)
  * - [Products](./examples/product.md)
  * - [About](./examples/about.md)
  * - Contact
- * 
- * @param {*} markdown 
+ *
+ * @param {string} markdown the text
+ * @return {string} the html for the markdown
  */
-export function get_menu(markdown) {
-  let result = []
+export function gen_menu(markdown) {
+  const renderer = new marked.Renderer();
 
-  let tokens = marked.lexer(markdown, {})
-  for (let token of tokens) {
-    if (token.type === 'list') {
-      for (let item of token.items) {
-        if (item.tokens[0].tokens) { // non-empty list-item
-          let node = item.tokens[0].tokens[0]
-          if (node.type === 'link') {
-            result.push({
-              text: node.text,
-              href: node.href,
-            })
-          } else {
-            result.push({
-              text: node.text,
-              href: '',
-            })
-          }
-        }
-      }
-
-      // only handle the first list
-      break
+  renderer.link = (href, title, text) => {
+    if (href === null) {
+      return text;
     }
-  }
+    let out = '<a href="#' + HASH_MENU + href + '"';
+    if (title) {
+      out += ' title="' + title + '"';
+    }
+    out += '>' + text + '</a>';
+    return out;
+  };
 
-  return result
+  return marked(markdown, { renderer });
 }
 
 /**
- * Get sidebar from the text of markdown
- * 
+ * Generate sidebar from the text of markdown
+ *
  * The sidebar is a two-level list in markdown, such as
- * 
+ *
  * - Get Started
  *   - [Installation](install.md)
  *   - Creating your site
@@ -55,43 +46,19 @@ export function get_menu(markdown) {
  * - Guides
  *   - Adding a Blog
  *   - Custom Pages
- * 
- * @param {*} markdown 
+ *
+ * @param {string} markdown the text
+ * @param {string} baseDir the base directory for links
+ * @return {string} the html for the markdown
  */
-export function get_sidebar(markdown) {
-  let result = []
-  let tokens = marked.lexer(markdown, {})
-  for (let token of tokens) {
-    // the first list
-    if (token.type === 'list') {
-      for (let item of token.items) {
-        // level 1
-        let currBar = {
-          title: item.tokens[0].text,
-          children: [],
-        }
-        result.push(currBar)
+export function gen_sidebar(markdown, baseDir) {
+  const renderer = new marked.Renderer();
 
-        for (let subitem of item.tokens[1].items) {
-          // level 2
-          let token = subitem.tokens[0].tokens[0]
-          if (token.type === 'link') {
-            currBar.children.push({
-              text: token.text,
-              href: token.href,
-            })
-          } else if (token.type === 'text') {
-            currBar.children.push({
-              text: token.text,
-              href: '',
-            })
-          }
-        }
-      }
+  renderer.listitem = (text) => {
+    return '<li class="item">' + text + '</li>\n';
+  };
 
-      break
-    }
-  }
+  renderer.link = link_sidebar(baseDir);
 
-  return result
+  return marked(markdown, { renderer });
 }
