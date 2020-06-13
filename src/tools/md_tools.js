@@ -15,6 +15,7 @@ import { slugize } from '../utils/slugize';
  */
 export function gen_html_with_spy(markdown, baseDir) {
   const anchors = [];
+  const extensions = [];
   const renderer = new marked.Renderer();
 
   renderer.link = link_sidebar(baseDir);
@@ -57,6 +58,7 @@ export function gen_html_with_spy(markdown, baseDir) {
 
       const grammar = Prism.languages[lang];
       if (!grammar) {
+        extensions.push(lang);
         console.warn(`Unable to find grammar for "${lang}".`);
         return code;
       }
@@ -69,5 +71,6 @@ export function gen_html_with_spy(markdown, baseDir) {
   return {
     html,
     anchors,
+    extensions,
   };
 }

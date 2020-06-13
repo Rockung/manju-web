@@ -3,10 +3,10 @@
 // FIXME: Extensions may be loaded when they are needed.
 
 import { get_json } from '../utils/network';
-import registerMathJax from './mathjax';
+import MathJax from './mathjax';
 import Mermaid from './mermaid';
 import Vega from './vega';
-import {} from './prism';
+import { } from './prism';
 
 async function get_packages() {
   let config = await get_json('manju-web-js.json');
@@ -25,8 +25,7 @@ export default async function registerExtensions() {
   let config = await get_packages();
 
   // Mathjax
-  registerMathJax(get_url(config, 'mathjax', 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'))
-    .then((script) => { });
+  MathJax.register(get_url(config, 'mathjax', 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js'));
 
   // Mermaid
   Mermaid.register(get_url(config, 'mermaid', 'https://cdn.bootcdn.net/ajax/libs/mermaid/8.5.1/mermaid.min.js'));

@@ -22,7 +22,7 @@ Vega.register = function (url) {
         hover: true,
       });
 
-      return view.runAsync;
+      view.runAsync();
     };
 
     triggerVega();
